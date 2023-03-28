@@ -1,0 +1,20 @@
+---
+title: "week_01"
+author: "Sarah Tanja"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Week 01 Question Set 
+
+1. What is your prior experience in this discipline?
+
+2. What do you hope to get out of this class?
+
+3. This class is strongly rooted in an independent project related to genomic analyses. What specific project do you have in mind? If you do not have any data or preference, data can be provided / aquired. If you do not have a specfic project, what approach would you like to master as part of this class?
+
+4. What are two things you found most useful from the reading?
