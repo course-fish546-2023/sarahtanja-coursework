@@ -7,16 +7,39 @@ output: html_document
 
 This [assignment](https://sr320.github.io/course-fish546-2023/assignments/01-blast.html) is to take set of unknown sequences, and annotate them.
 
-### Step 1. Download Software 
+### Step 1. Download Software
 
-Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) page I tried to first download the `ncbi-blast-2.13.0+-win64.exe` file I also downloaded the [ncbi-blast-2.13.0+-x64-arm-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-arm-linux.tar.gz)
+Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) page, and select the software for your operating system.
+
+We are going to first try to downloaded the [ncbi-blast-2.13.0+-x64-arm-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-arm-linux.tar.gz), and we'll do this not by 'clicking' on the file and downloading it locally to your computer, but by downloading it using the `curl -O` bash command and placing it in a new folder we'll create named 'applications' outside of the repository.
+
+> When you start a bash code chunk the present working directory always starts over in the location of the .Rmd file that you are working from
 
 ```{bash}
+# check present working directory
 pwd
-cd /Applications/bioinfo/
+# change to outside of repo
+cd ../../
+# check that you are outside of repo
+pwd
+# make application directory (will throw an error if already made once, # comment out if this is the case)
+# mkdir applications
+# switch into applications directory
+cd applications
+# curl (download from the internet) the NCBI software
+curl -O https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-macosx.tar.gz
+# tar unzip software 
+tar -xf ncbi-blast-2.13.0+-x64-macosx.tar.gz
 ```
 
 ```{bash}
-curl -O https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-macosx.tar.gz
-tar -xf ncbi-blast-2.13.0+-x64-macosx.tar.gz
+~/sarahtanja/applications/ncbi-blast-2.13.0+/bin/blastx -h
+```
+
+```{pwd}
+cd ../data
+curl -O https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+mv uniprot_sprot.fasta.gz uniprot_sprot_r2023_01.fasta.gz
+gunzip -k uniprot_sprot_r2023_01.fasta.gz
+ls ../data
 ```
