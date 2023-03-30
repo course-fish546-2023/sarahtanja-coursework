@@ -1,30 +1,22 @@
 ---
-title: "01-blast"
+title: "blast"
 author: "Sarah Tanja"
 date: "3/30/2023"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+This [assignment](https://sr320.github.io/course-fish546-2023/assignments/01-blast.html) is to take set of unknown sequences, and annotate them.
+
+### Step 1. Download Software 
+
+Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) page I tried to first download the `ncbi-blast-2.13.0+-win64.exe` file I also downloaded the [ncbi-blast-2.13.0+-x64-arm-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-arm-linux.tar.gz)
+
+```{bash}
+pwd
+cd /Applications/bioinfo/
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{bash}
+curl -O https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-macosx.tar.gz
+tar -xf ncbi-blast-2.13.0+-x64-macosx.tar.gz
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
