@@ -4,3 +4,4 @@
 .Ruserdata
 assignments/data/*.f*
 assignments/code/ncbi-blast*
+assignments/blastdb

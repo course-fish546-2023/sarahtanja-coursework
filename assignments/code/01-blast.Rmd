@@ -60,7 +60,9 @@ tar -xf ncbi-blast-2.13.0+-x64-linux.tar.gz
 
 ### Step 2. Make Blast Database
 
-Before this step we want to make sure there is an assignments/data directory, and to add `assignments/data/*.f*` to .gitignore file, since we will be downloading large fasta files to the folder, these files are too large to commit to GitHub (exceeding the max file size), and will result in errors if not included in the .gitignore file.
+Before this step we want to make sure there is an assignments/data directory, and to add `assignments/data/*.f*` to the .gitignore file, since we will be downloading large fasta files to the folder, these files are too large to commit to GitHub (exceeding the max file size), and will result in errors if not included in the .gitignore file.
+
+> Note: add `assignments/data/*.f*` to the .gitignore file
 
 see <https://www.uniprot.org/downloads>
 
@@ -85,9 +87,13 @@ gunzip -k uniprot_sprot_r2023_01.fasta.gz
 ls ../data
 ```
 
-```{bash}
+This code chunk will make the blast database.
 
-/Applications/bioinfo/ncbi-blast-2.13.0+/bin/makeblastdb \
+> Note: add `assignments/blastdb` to the .gitignore file
+
+```{bash}
+# Use the ncbi-blast software 'makeblastdb' and run chain of commands to make a database using the fasta files in a new blastdb folder
+~/applications/ncbi-blast-2.13.0+/bin/makeblastdb \
 -in ../data/uniprot_sprot_r2023_01.fasta \
 -dbtype prot \
 -out ../blastdb/uniprot_sprot_r2023_01
