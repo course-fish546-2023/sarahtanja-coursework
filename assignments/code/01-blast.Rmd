@@ -1,39 +1,40 @@
 ---
 title: "blast"
 author: "Sarah Tanja"
-date: "3/31/2023"
+date: "3/30/2023"
 output: html_document
 ---
 
 This assignment is to take set of unknown sequences, and annotate them.
 
-Environment:
+> Environment:
+>
+> -   Windows Surface Pro
+>
+> -   Chrome browser
+>
+> -   [JupyterHub Instance](https://jupyter.rttl.uw.edu/2023-spring-fish-546-a), remote RStudio server
 
-Windows Surface Pro
+### Step 1. Download Software
 
-Chrome browser
+Open the remote RStudio server through [JupyterHub Instance](https://jupyter.rttl.uw.edu/2023-spring-fish-546-a){style="font-size: 11.4pt;"}.
 
-JupyterHub Instance, remote RStudio server
+Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/){style="font-size: 11.4pt;"} page, and copy [the link]{.underline} to the software ***for your operating system***. This is an important first step! Here I choose \`[ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz)\` because I am working in a Linux OS environment through the cloud instance of UW's JupyterHub, which operates a Linux OS.
 
-Step 1. Download Software
+![software download for NCBI blast](ncbiblastdownload.png)
 
-Open the remote RStudio server through JupyterHub Instance.
+We are going to first try to downloaded the [ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz) , and we'll do this not by 'clicking' on the file and downloading it locally to your computer, but by downloading it using the `curl -O` bash command and placing it in a new folder we'll create named 'applications' outside of the repository.
 
-Navigate to the NCBI blast downloads page, and copy the link to the software for your operating system. This is an important first step! Here I choose `ncbi-blast-2.13.0+-x64-linux.tar.gz` because I am working in a Linux OS environment through the cloud instance of UW's JupyterHub, which operates a Linux OS.
+> Note: When you start a bash code chunk the present working directory always starts over in the location of the file that you are working from
 
-software download for NCBI blast
-
-We are going to first try to downloaded the ncbi-blast-2.13.0+-x64-linux.tar.gz , and we'll do this not by 'clicking' on the file and downloading it locally to your computer, but by downloading it using the curl -O bash command and placing it in a new folder we'll create named 'applications' outside of the repository.
-
-Note: When you start a bash code chunk the present working directory always starts over in the location of the file that you are working from
-
-{bash}
+```{bash}
 # check present working directory
 pwd
+```
 
-Download the software using curl -O
+Download the software using `curl -O`
 
-{bash}
+```{bash}
 # navigate to outside of git repo directory using relative paths
 cd ../../../../
 # make application directory (will throw an error if already made once
@@ -43,25 +44,37 @@ cd ../../../../
 cd applications
 # curl (download from the internet) the NCBI software
 curl -O https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz
-# tar unzip software 
+# tar unzip software with `tar -xf`
 tar -xf ncbi-blast-2.13.0+-x64-linux.tar.gz
+```
 
-Note: The ~ command specifies a file to run a program or command on… it does not change you to that directory space! The -h command displays help when placed after a specified file
+> Note: The `~` command specifies a file to run a program or command on... it does not change you to that directory space! The `-h` command displays help when placed after a specified file
 
-{bash}
+```{bash}
 ~/applications/ncbi-blast-2.13.0+/bin/blastx -h
+```
+
+### Step 2. **Make Blast Database**
+
+see <https://www.uniprot.org/downloads>
+
+> Note: The \~ command specifies a file to run a program or command on... it does not change you to that directory space! The -h command displays help when placed after a specified file
+
+```{bash}
+~/applications/ncbi-blast-2.13.0+/bin/blastx -h
+```
 
 Step 2. Make Blast Database
 
-see https://www.uniprot.org/downloads
+see <https://www.uniprot.org/downloads>
 
-
-{bash}
+```{bash}
 pwd
 cd ../data
 curl -O https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
 mv uniprot_sprot.fasta.gz uniprot_sprot_r2023_01.fasta.gz
 gunzip -k uniprot_sprot_r2023_01.fasta.gz
 ls ../data
+```
 
-add `assignments/data/*.f*` to .gitignore file 
+add `assignments/data/*.f*` to .gitignore file
