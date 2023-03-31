@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 assignments/data/*.f*
+assignments/code/ncbi-blast*
