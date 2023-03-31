@@ -9,7 +9,7 @@ This assignment is to take set of unknown protein sequences, and annotate them w
 
 tl;dr: GO term annotation helps to answer questions like, 'What proteins are in the sample, and what do they do?"
 
-> Environment:
+> My Environment:
 >
 > -   Windows Surface Pro
 >
@@ -129,8 +129,25 @@ This code chunk takes a very long time to run!
 ```
 
 ```{bash}
+~/applications/ncbi-blast-2.13.0+/bin/blastx \
+-query ../data/Ab_4denovo_CLC6_a.fa \
+-db ../blastdb/uniprot_sprot_r2023_01 \
+-out ../output/Ab_4-uniprot_blastx.tab \
+-evalue 1E-20 \
+-num_threads 16 \
+-max_target_seqs 1 \
+-outfmt 6
+```
+
+```{bash}
 head -2 ../output/Ab_4-uniprot_blastx.tab
 wc -l ../output/Ab_4-uniprot_blastx.tab
 ```
 
 Need to convert `sp|Q08013|SSRG_RAT` to get accession number out.
+
+### Step 5. Getting More Information
+
+```{bash}
+curl -O "Accept: text/plain; format=tsv" "https://rest.uniprot.org/uniprotkb/search?query=reviewed:true+AND+organism_id:9606"
+```
