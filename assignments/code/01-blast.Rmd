@@ -1,11 +1,11 @@
 ---
 title: "blast"
 author: "Sarah Tanja"
-date: "3/30/2023"
+date: "3/31/2023"
 output: html_document
 ---
 
-This assignment is to take set of unknown sequences, and annotate them.
+This assignment is to take set of unknown sequences, and annotate them with GO terms.
 
 > Environment:
 >
@@ -37,13 +37,17 @@ Download the software using `curl -O`
 ```{bash}
 # navigate to outside of git repo directory using relative paths
 cd ../../../../
+
 # make application directory (will throw an error if already made once
 # comment out `mkdir applications` if this is the case)
 # mkdir applications
+
 # switch into applications directory
 cd applications
+
 # curl (download from the internet) the NCBI software
 curl -O https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz
+
 # tar unzip software with `tar -xf`
 tar -xf ncbi-blast-2.13.0+-x64-linux.tar.gz
 ```
@@ -54,17 +58,9 @@ tar -xf ncbi-blast-2.13.0+-x64-linux.tar.gz
 ~/applications/ncbi-blast-2.13.0+/bin/blastx -h
 ```
 
-### Step 2. **Make Blast Database**
+### Step 2. Make Blast Database
 
-see <https://www.uniprot.org/downloads>
-
-> Note: The \~ command specifies a file to run a program or command on... it does not change you to that directory space! The -h command displays help when placed after a specified file
-
-```{bash}
-~/applications/ncbi-blast-2.13.0+/bin/blastx -h
-```
-
-Step 2. Make Blast Database
+Before this step we want to make sure there is an assignments/data directory, and to add `assignments/data/*.f*` to .gitignore file, since we will be downloading large fasta files to the folder, these files are too large to commit to GitHub (exceeding the max file size), and will result in errors if not included in the .gitignore file.
 
 see <https://www.uniprot.org/downloads>
 
@@ -76,5 +72,3 @@ mv uniprot_sprot.fasta.gz uniprot_sprot_r2023_01.fasta.gz
 gunzip -k uniprot_sprot_r2023_01.fasta.gz
 ls ../data
 ```
-
-add `assignments/data/*.f*` to .gitignore file
