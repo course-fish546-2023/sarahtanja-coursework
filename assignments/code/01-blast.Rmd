@@ -98,3 +98,17 @@ This code chunk will make the blast database.
 -dbtype prot \
 -out ../blastdb/uniprot_sprot_r2023_01
 ```
+
+### Step 3. Get Query Sequence
+
+```{bash}
+curl https://eagle.fish.washington.edu/cnidarian/Ab_4denovo_CLC6_a.fa \
+-k \
+>../data/Ab_4denovo_CLC6_a.fa
+```
+
+```{bash}
+head ../data/Ab_4denovo_CLC6_a.fa
+echo "How many sequences are there?"
+grep -c ">" ../data/Ab_4denovo_CLC6_a.fa
+```
