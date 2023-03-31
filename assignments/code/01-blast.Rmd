@@ -65,10 +65,30 @@ Before this step we want to make sure there is an assignments/data directory, an
 see <https://www.uniprot.org/downloads>
 
 ```{bash}
+
+# check present working directory
 pwd
+
+# change into assignments/data directory
 cd ../data
+
+# download fasta.gz files from uniprot
 curl -O https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+
+# use the 'move' `mv` command to rename uniprot_sprot to include info on year & assignment number
 mv uniprot_sprot.fasta.gz uniprot_sprot_r2023_01.fasta.gz
+
+# unzip file (zipped by `gz`.. so unzip with `gunzip`..something something)
 gunzip -k uniprot_sprot_r2023_01.fasta.gz
+
+# list the files in the data directory to check that they are there with the right names
 ls ../data
+```
+
+```{bash}
+
+/Applications/bioinfo/ncbi-blast-2.13.0+/bin/makeblastdb \
+-in ../data/uniprot_sprot_r2023_01.fasta \
+-dbtype prot \
+-out ../blastdb/uniprot_sprot_r2023_01
 ```
