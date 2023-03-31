@@ -5,9 +5,11 @@ date: "3/31/2023"
 output: html_document
 ---
 
-This assignment is to take set of unknown sequences, and annotate them with GO terms.
+This assignment is to take set of unknown protein sequences, and annotate them with GO terms. What is a Gene Ontology (GO) term? 👀 see this [introduction to GO annotation](http://geneontology.org/docs/go-annotations/).
 
-> Environment:
+tl;dr: GO term annotation helps to answer questions like, 'What proteins are in the sample, and what do they do?"
+
+> My Environment:
 >
 > -   Windows Surface Pro
 >
@@ -64,13 +66,11 @@ Before this step we want to make sure there is an assignments/data directory, an
 
 > Note: add `assignments/data/*.f*` to the .gitignore file
 
-see <https://www.uniprot.org/downloads>
+👀 see <https://www.uniprot.org/downloads>.
+
+What is Swiss-Prot (sprot)? 👀 see [this](https://www.uniprot.org/help/uniprotkb_sections) info article.
 
 ```{bash}
-
-# check present working directory
-pwd
-
 # change into assignments/data directory
 cd ../data
 
@@ -97,4 +97,111 @@ This code chunk will make the blast database.
 -in ../data/uniprot_sprot_r2023_01.fasta \
 -dbtype prot \
 -out ../blastdb/uniprot_sprot_r2023_01
+```
+
+### Step 3. Get Query Sequence
+
+```{bash}
+curl https://eagle.fish.washington.edu/cnidarian/Ab_4denovo_CLC6_a.fa \
+-k \
+>../data/Ab_4denovo_CLC6_a.fa
+```
+
+```{bash}
+head ../data/Ab_4denovo_CLC6_a.fa
+echo "How many sequences are there?"
+grep -c ">" ../data/Ab_4denovo_CLC6_a.fa
+```
+
+### Step 4. Run Blast
+
+This code chunk takes a very long time to run! May have to let it write to a file for a little while, then interrupt the code chunk by restarting R and moving on to the next step.
+
+```{bash}
+~/applications/ncbi-blast-2.13.0+/bin/blastx \
+-query ../data/Ab_4denovo_CLC6_a.fa \
+-db ../blastdb/uniprot_sprot_r2023_01 \
+-out ../output/Ab_4-uniprot_blastx.tab \
+-evalue 1E-20 \
+# 16 because 16 CPU cores on my machine
+-num_threads 16 \
+-max_target_seqs 1 \
+-outfmt 6
+```
+
+> Tip: run the head command to make sure there is an output.
+
+```{bash}
+head -2 ../output/Ab_4-uniprot_blastx.tab
+wc -l ../output/Ab_4-uniprot_blastx.tab
+```
+
+Need to convert `sp|Q08013|SSRG_RAT` to get accession number out.
+
+### Step 5. Getting More Information
+
+First need to change format of blast output in bash...
+
+```{bash}
+tr '|' '\t' < ../output/Ab_4-uniprot_blastx.tab \
+> ../output/Ab_4-uniprot_blastx_sep.tab
+```
+
+In R chunks...
+
+Install packages
+
+```{r}
+install.packages(tidyverse)
+install.packages("kableExtra")
+
+```
+
+Attach packages
+
+```{r}
+library(tidyverse)
+library("kableExtra")
+```
+
+Read in data
+
+```{r}
+bltabl <- read.csv("../output/Ab_4-uniprot_blastx_sep.tab", sep = '\t', header = FALSE)
+
+spgo <- read.csv("https://gannet.fish.washington.edu/seashell/snaps/uniprot_table_r2023_01.tab", sep = '\t', header = TRUE)
+```
+
+Check data
+
+```{r}
+head.matrix(spgo)
+```
+
+```{r}
+str(bltabl)
+```
+
+Join spgo and bltabl:
+
+1.  join using left_join
+
+```{r}
+left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
+  select(V1, V3, V13, Protein.names, Organism, Gene.Ontology..biological.process., Gene.Ontology.IDs) %>% mutate(V1 = str_replace_all(V1, 
+            pattern = "solid0078_20110412_FRAG_BC_WHITE_WHITE_F3_QV_SE_trimmed", replacement = "Ab")) %>%
+  write_delim("../output/blast_annot_go.tab", delim = '\t')
+```
+
+2.  join using left_join and display using kbl
+
+```{r}
+kbl(
+head(
+  left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
+  select(V1, V3, V13, Protein.names, Organism, Gene.Ontology..biological.process., Gene.Ontology.IDs) %>% mutate(V1 = str_replace_all(V1, 
+            pattern = "solid0078_20110412_FRAG_BC_WHITE_WHITE_F3_QV_SE_trimmed", replacement = "Ab"))
+)
+) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
