@@ -182,6 +182,10 @@ head.matrix(spgo)
 str(bltabl)
 ```
 
+### **Step 6. Joining blast table with annotation table**
+
+At this point we have a blast output table (bltabl) and annotation table (spgo) both with a Uniprot accession number. Thus we can join the two tables and be able to get more functional information about the genes.
+
 Join spgo and bltabl:
 
 1.  join using left_join
@@ -195,7 +199,7 @@ left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
 
 2.  join using left_join and display using kbl
 
-```{r}
+```{r echo=TRUE}
 kbl(
 head(
   left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
@@ -204,4 +208,14 @@ head(
 )
 ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r echo=TRUE}
+annot_tab <- read.csv("../output/blast_annot_go.tab", sep = '\t', header = TRUE)
+
+kbl(
+(annot_tab)
+)%>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
 ```
