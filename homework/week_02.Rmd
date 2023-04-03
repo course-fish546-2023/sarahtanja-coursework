@@ -1,0 +1,18 @@
+## Week 02 Question Set
+
+a)  **What do you feel was the most impressive thing you did in class last week was?**
+I'm impressed that I was able to get stuck on step #1 for the entire class trying to download the wrong ncbi blast software. Outside of class, I set up a local host RStudio server on WSL, and I'm pretty happy with learning how to do that. 
+
+b)  **What is your weekly goal for making progress on your project? What is the next step?**
+This week in-class with Ariana will be really great for me, my goal is to get a good grasp of 
+
+c)  **There were two readings this week not from the textbook, meant for two different audiences. Which reading did you get the most out of and why? Do you have any questions regarding the Journal of Shellfish Research paper?**
+It was key that I read the primer review paper before the multifactorial model fitting post. 
+
+d)  **What is your favorite thing about markdown and why?**
+
+
+e) **What is the difference between `curl` and `wget`? When would you used one over the other?**
+"`wget` is useful for quickly downloading a file from the command line"
+curl serves a slightly different purpose than wget. wget is great for downloading files via HTTP or FTP and scraping data from a web page using its recursive option. 
+curl behaves similarly, although by default writes the file to standard output.
