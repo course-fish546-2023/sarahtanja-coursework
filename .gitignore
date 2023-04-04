@@ -5,3 +5,4 @@
 assignments/data/*.f*
 assignments/code/ncbi-blast*
 assignments/blastdb
+assignments/code/*fastq*
