@@ -1,17 +1,17 @@
 ---
-title: "DGE"
+title: "01-dge"
 author: "Sarah Tanja"
 date: "4/4/2023"
 output: html_document
 ---
 
-{r, include=FALSE} knitr::opts_chunk\$set( include=TRUE, echo = TRUE, fig.width = 6 )
-
 # Differential Gene Expression
 
 <https://sr320.github.io/course-fish546-2023/assignments/02-DGE.html>
 
-For this assignment you will be taking RNA-seq reads off the sequencer, and determining what genes are expressed higher in treatment group A compared to treatments group B. The end product will be a plot and table of deferentially expressed genes.
+For this assignment you will be taking RNA-seq reads off the sequencer, and determining what genes are expressed higher in [treatment group A]{.underline} compared to [treatments group B]{.underline}. The end product will be a plot and table of deferentially expressed genes.
+
+> Kallisto is a pseudo-aligner, it does not need a genome to align to!
 
 ## Setup git hooks to automatically gitignore files \>100MB
 
@@ -68,12 +68,15 @@ Note: add assignments/code/\*fastq to .gitignore file! These files, even zipped,
 Checkout the readme.md
 
 ```{bash}
-# output readme file to the terminal curl https://owl.fish.washington.edu/nightingales/C_gigas/readme.md
+# output readme file to the terminal 
+curl https://owl.fish.washington.edu/nightingales/C_gigas/readme.md
 ```
 
 Download all the fastq.gz files (this takes a long time!)
 
 ```{bash}
+# navigate to new file in data folder
+cd ../data/02-dge
 # download fastq.gz files using wget 
 wget --recursive --no-parent --no-directories --no-check-certificate\
 --accept '[DMN]\*001.fastq.gz'\
@@ -104,11 +107,51 @@ gunzip ~/sarahtanja/programs/kallisto_linux-v0.46.1.tar.gz
 
 Kallisto is already installed on raven (`/home/shared/kallisto/kallisto`) \> Note: Cannot find `shared` folder under /home in raven... 04APR23
 
-## Downloading Reference
+```{bash}
+/home/shared/kallisto/kallisto index
+```
+
+## Step 4. Downloading Reference
 
 ```{bash}
 # change to work in data directory
 cd ../data
 # download fna file to data directory
-curl -O https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
+wget --no-check-certificate https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
+```
+
+creating an index
+```{bash}
+# use absolute path to kallisto program
+ /home/shared/kallisto/kallisto \
+# create an index and name it (-i) `cgigas_roslin_rna.index`
+index -i \
+../data/cgigas_roslin_rna.index \
+# here is the absolute path to the RNAseq data (fasta files)
+/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data
+```
+
+## Step 5. Download sequence reads
+data is located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`
+
+```{bash}
+# make kallisto_01 directory in output directorty
+# comment out once directory is made
+
+#cd ../output
+#mkdir kallisto_01
+```
+
+
+```{bash}
+# replace data location with absolute path above
+#find ../data/*fastq.gz \ # take the data
+
+find /home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data \
+| xargs basename -s _R1_001.fastq.gz | xargs -I{} /home/shared/kallisto/kallisto \
+quant -i ../data/cgigas_roslin_rna.index \
+-o ../output/kallisto_01/{} \
+-t 40 \
+--single -l 100 -s 10 ../data/{}_L001_R1_001.fastq.gz
+
 ```
