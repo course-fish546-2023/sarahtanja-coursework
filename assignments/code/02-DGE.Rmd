@@ -41,25 +41,25 @@ stanja@raven:~/sarahtanja/sarahtanja-coursework$ chmod +x .git/hooks/pre-commit
 
 With these changes, whenever you run a git commit command, Git will first execute the pre-commit hook, which will automatically add any files larger than 100 MB to the .gitignore file. This will prevent Git from tracking these files in the repository going forward.
 
-In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push by following [this](https://stackoverflow.com/questions/1125968/how-do-i-force-git-pull-to-overwrite-local-files) stackoverflow answer:
-
-First, update all `origin/<branch>` refs to latest:
-
-```{bash}
-git fetch --all
-```
-
-Backup your current branch (e.g. `master`):
-
-```{bash}
-git branch backup-master
-```
-
-Jump to the latest commit on `origin/master` and checkout those files:
-
-```{bash}
-git reset --hard origin/master
-```
+> In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push by following [this](https://stackoverflow.com/questions/1125968/how-do-i-force-git-pull-to-overwrite-local-files) stackoverflow answer:
+>
+> First, update all `origin/<branch>` refs to latest:
+>
+> ```{bash}
+> git fetch --all
+> ```
+>
+> Backup your current branch (e.g. `master`):
+>
+> ```{bash}
+> git branch backup-master
+> ```
+>
+> Jump to the latest commit on `origin/master` and checkout those files:
+>
+> ```{bash}
+> git reset --hard origin/master
+> ```
 
 ## Step 1. Download fastq.gz files
 
@@ -67,28 +67,48 @@ Note: add assignments/code/\*fastq to .gitignore file! These files, even zipped,
 
 Checkout the readme.md
 
-{bash} \# output readme file to the terminal curl <https://owl.fish.washington.edu/nightingales/C_gigas/readme.md>
+```{bash}
+# output readme file to the terminal curl https://owl.fish.washington.edu/nightingales/C_gigas/readme.md
+```
 
 Download all the fastq.gz files (this takes a long time!)
 
-{bash} \# download fastq.gz files using wget wget --recursive --no-parent --no-directories --no-check-certificate\
+```{bash}
+# download fastq.gz files using wget 
+wget --recursive --no-parent --no-directories --no-check-certificate\
 --accept '[DMN]\*001.fastq.gz'\
-<https://owl.fish.washington.edu/nightingales/C_gigas/>
+https://owl.fish.washington.edu/nightingales/C_gigas/
+```
 
 ## Step 2. Install Kallisto
 
 For this assignment we will be using kallisto (bash), DESeq2 (r).
 
-Go to Terminal and create a directory in your home directory (outside of git repo) named programs
+Create a directory in your home directory (outside of git repo) named `programs`, then use `wget` to download zipped program software into the `programs` directory
 
 ```{bash}
-stanja@raven:~/sarahtanja/sarahtanja-coursework$ cd ../ 
-stanja@raven:~/sarahtanja$ mkdir programs
+pwd
+cd ../../../../
+mkdir programs
+cd programs 
+wget https://github.com/pachterlab/kallisto/releases/download/v0.46.1/kallisto_linux-v0.46.1.tar.gz
 ```
 
-Use wget to download zipped program software
+Unzip the file
 
 ```{bash}
-stanja@raven:~/sarahtanja$ cd programs 
-stanja@raven:~/sarahtanja/programs$ wget https://github.com/pachterlab/kallisto/releases/download/v0.46.1/kallisto_linux-v0.46.1.tar.gz
+gunzip ~/sarahtanja/programs/kallisto_linux-v0.46.1.tar.gz
+```
+
+## Step 3. Running kallisto
+
+Kallisto is already installed on raven (`/home/shared/kallisto/kallisto`) \> Note: Cannot find `shared` folder under /home in raven... 04APR23
+
+## Downloading Reference
+
+```{bash}
+# change to work in data directory
+cd ../data
+# download fna file to data directory
+curl -O https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
 ```
