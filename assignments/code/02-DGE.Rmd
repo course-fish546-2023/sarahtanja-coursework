@@ -1,0 +1,3 @@
+# Differential Gene Expression
+
+<https://sr320.github.io/course-fish546-2023/assignments/02-DGE.html>
