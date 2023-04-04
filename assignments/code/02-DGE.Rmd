@@ -5,28 +5,23 @@ date: "4/4/2023"
 output: html_document
 ---
 
-{r, include=FALSE}
-knitr::opts_chunk$set(
-  include=TRUE, echo = TRUE, fig.width = 6
-)
+{r, include=FALSE} knitr::opts_chunk\$set( include=TRUE, echo = TRUE, fig.width = 6 )
 
 # Differential Gene Expression
 
-https://sr320.github.io/course-fish546-2023/assignments/02-DGE.html
+<https://sr320.github.io/course-fish546-2023/assignments/02-DGE.html>
 
 For this assignment you will be taking RNA-seq reads off the sequencer, and determining what genes are expressed higher in treatment group A compared to treatments group B. The end product will be a plot and table of deferentially expressed genes.
 
-! Important !
+## Setup git hooks to automatically gitignore files \>100MB
 
-Commit early and often but ignore files that are larger that 100 MB (or you will likely lose everything since prior commit).
+You can use Git's built-in hooks to automatically ignore files larger than 100 MB. Here are the steps to follow:
 
-You can use Git’s built-in hooks to automatically ignore files larger than 100 MB. Here are the steps to follow:
+-   Create a new text file in the .git/hooks/ directory of your repository called pre-commit. *Select the `More` tab with the gear icon under the RStudio Files navigator bar and select 'show hidden files' to see the .git folder*.
 
-Create a new text file in the .git/hooks/ directory of your repository called pre-commit. *Select the More tab with the gear icon under the RStudio Files navigator bar and select 'show hidden files' to see the .git folder.
+-   Add the following code to the pre-commit file:
 
-Add the following code to the pre-commit file:
-
-{txt}
+```{txt}
 #!/bin/bash
 
 # Maximum file size (in bytes)
@@ -34,48 +29,66 @@ max_file_size=104857600
 
 # Find all files larger than max_file_size and add them to the .gitignore file
 find . -type f -size +$max_file_sizec -exec echo "{}" >> .gitignore \;
+```
 
 This code sets the max_file_size variable to 100 MB and then uses the find command to locate all files in the repository that are larger than the specified max_file_size. The exec option of the find command appends the name of each file that matches the criteria to the .gitignore file.
 
-Save the pre-commit file and make it executable by running the following command:
+Save the pre-commit file and make it executable by running the following command in Terminal:
 
-{bash}
-chmod +x .git/hooks/pre-commit
+```{bash}
+stanja@raven:~/sarahtanja/sarahtanja-coursework$ chmod +x .git/hooks/pre-commit
+```
 
 With these changes, whenever you run a git commit command, Git will first execute the pre-commit hook, which will automatically add any files larger than 100 MB to the .gitignore file. This will prevent Git from tracking these files in the repository going forward.
 
-This might also work - git reset --mixed HEAD~1
+In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push by following [this](https://stackoverflow.com/questions/1125968/how-do-i-force-git-pull-to-overwrite-local-files) stackoverflow answer:
 
-Step 1. Download fastq.gz files
+First, update all `origin/<branch>` refs to latest:
 
-Note: add assignments/code/*fastq to .gitignore file! These files, even zipped, are greater than 100MB and cannot be committed to Github.
+```{bash}
+git fetch --all
+```
+
+Backup your current branch (e.g. `master`):
+
+```{bash}
+git branch backup-master
+```
+
+Jump to the latest commit on `origin/master` and checkout those files:
+
+```{bash}
+git reset --hard origin/master
+```
+
+## Step 1. Download fastq.gz files
+
+Note: add assignments/code/\*fastq to .gitignore file! These files, even zipped, are greater than 100MB and cannot be committed to Github.
 
 Checkout the readme.md
 
-{bash}
-# output readme file to the terminal
-curl https://owl.fish.washington.edu/nightingales/C_gigas/readme.md
+{bash} \# output readme file to the terminal curl <https://owl.fish.washington.edu/nightingales/C_gigas/readme.md>
 
 Download all the fastq.gz files (this takes a long time!)
 
-{bash}
-# download fastq.gz files using wget
-wget --recursive --no-parent --no-directories --no-check-certificate \
---accept '[DMN]*001.fastq.gz' \
-https://owl.fish.washington.edu/nightingales/C_gigas/
+{bash} \# download fastq.gz files using wget wget --recursive --no-parent --no-directories --no-check-certificate\
+--accept '[DMN]\*001.fastq.gz'\
+<https://owl.fish.washington.edu/nightingales/C_gigas/>
 
-Step 2. Install Kallisto
+## Step 2. Install Kallisto
 
 For this assignment we will be using kallisto (bash), DESeq2 (r).
 
 Go to Terminal and create a directory in your home directory (outside of git repo) named programs
 
-{bash}
-stanja@raven:~/sarahtanja/sarahtanja-coursework$ cd ../
+```{bash}
+stanja@raven:~/sarahtanja/sarahtanja-coursework$ cd ../ 
 stanja@raven:~/sarahtanja$ mkdir programs
+```
 
 Use wget to download zipped program software
 
-{bash}
-stanja@raven:~/sarahtanja$ cd programs
+```{bash}
+stanja@raven:~/sarahtanja$ cd programs 
 stanja@raven:~/sarahtanja/programs$ wget https://github.com/pachterlab/kallisto/releases/download/v0.46.1/kallisto_linux-v0.46.1.tar.gz
+```
