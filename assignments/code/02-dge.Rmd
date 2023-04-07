@@ -34,7 +34,7 @@ In this assignment we're dealing with large files that will end up in the ../dat
 max_file_size=104857600
 
 # Find all files larger than max_file_size and add them to the .gitignore file
-find . -type f -size +$max_file_sizec -exec echo "{}" >> .gitignore \;
+find . -type f -size +$max_file_size -exec echo "{}" >> .gitignore \;
 ```
 
 This code sets the max_file_size variable to 100 MB and then uses the find command to locate all files in the repository that are larger than the specified max_file_size. The exec option of the find command appends the name of each file that matches the criteria to the .gitignore file.
@@ -230,7 +230,7 @@ BiocManager::install("DESeq2")
 ```
 
 Load packages
-```{r}
+```{r, results='hide'}
 
 library(DESeq2)
 library(tidyverse)
