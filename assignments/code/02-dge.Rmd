@@ -230,7 +230,7 @@ BiocManager::install("DESeq2")
 ```
 
 Load packages
-```{r, results='hide'}
+```{r results='hide', warning=FALSE, error=FALSE, message=FALSE}
 
 library(DESeq2)
 library(tidyverse)
