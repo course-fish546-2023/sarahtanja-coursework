@@ -280,7 +280,7 @@ Count number of hits with adjusted p-value less then 0.05
 dim(deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ])
 ```
 Make plots
-```{r}
+```{r results='markup', warning=FALSE}
 tmp <- deseq2.res
 # The main plot
 plot(tmp$baseMean, tmp$log2FoldChange, pch=20, cex=0.45, ylim=c(-3, 3), log="x", col="darkgray",
