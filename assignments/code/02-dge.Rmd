@@ -17,6 +17,8 @@ For this assignment you will be taking RNA-seq data, and running a common differ
 
 > Kallisto is a pseudo-aligner, it does not need a genome to align to! it uses the sequences in the dataset to create it's own 'reference'
 
+------------------------------------------------------------------------
+
 ## Advance prep: Setup git hooks to automatically gitignore files \>100MB
 
 In this assignment we're dealing with large files that will end up in the ../data and ../output directories. To prevent those large files from clogging up our ability to 'git push', we can use built-in hooks to automatically ignore files larger than 100 MB (no matter the directory or file name!). Here are the steps to follow:
@@ -69,56 +71,57 @@ With these changes, whenever you run a git commit command, Git will first execut
 > #git reset --hard origin/master
 > ```
 
+------------------------------------------------------------------------
+
 ## Running kallisto
 
-[Kallisto](https://pachterlab.github.io/kallisto/) is a software that can be downloaded and unzipped into a `programs` directory outside of the present working directory. In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`), and can be 'checked' by running the `index` command as below:
+[kallisto](https://pachterlab.github.io/kallisto/) is a software that can be downloaded and unzipped into a `programs` directory outside of the repo.
+
+In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`), and can be checked by running the `version` command as below:
 
 ```{bash, eval = TRUE, echo = TRUE, include = TRUE}
-/home/shared/kallisto/kallisto index
+/home/shared/kallisto/kallisto version
 ```
 
-## Step 4. Downloading Reference
+> If you need to download and install kallisto:
+>
+> 1.  navigate to a `programs` directory outside of the repo
+> 2.  grab the applicable program from the [website](https://pachterlab.github.io/kallisto/) using `wget`
+> 3.  uncompress the file by navigating to the `programs/kallisto` directory and running `gunzip`
+> 4.  check functionality with `index` command as above
 
-```{bash}
+------------------------------------------------------------------------
+
+## Downloading Reference
+
+This code grabs the Pacific oyster fasta file of genes and does so ignoring the fact that *gannet* does not have a security certificate to authenticate (`--insecure`). This is usually not recommended however we know the server (i.e. we trust we're not going to get a virus from this server).
+
+```{bash, eval = TRUE}
 # change to work in data directory
 cd ../data
-# download fna file to data directory
-wget --no-check-certificate https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
+# download the rna.fna file to data directory from the gannet server
+curl --insecure -O https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
 ```
 
-creating an index
+In the next code chunk we create the index file which **insert what the index file is for here**. Creating the index file can take some time (it is 1.6GB!) This code is indexing the file `rna.fna` while also renaming it as `cgigas_roslin_rna.index`. `/home/shared/kallisto/kallisto` is the absolute path to kallisto program, while the lines after the `index` command indicate where to get the data from (the `rna.fna` file) and where to write the file to.
 
 ```{bash}
-# use absolute path to kallisto program
- /home/shared/kallisto/kallisto \
-# create an index and name it (-i) `cgigas_roslin_rna.index`
+/home/shared/kallisto/kallisto \
 index -i \
 ../data/cgigas_roslin_rna.index \
-# here is the absolute path to the RNAseq data (fasta files)
-/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data
+../data/rna.fna
 ```
 
-## Step 5. Download sequence reads
+## Download sequence reads
 
-data is located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`
-
-```{bash}
-# make kallisto_01 directory in output directorty
-# comment out once directory is made
-
-#cd ../output
-#mkdir kallisto_01
-```
+Sequence reads are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`. This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
 
 ```{bash}
-# replace data location with absolute path above
-#find ../data/*fastq.gz \ # take the data
-
-find /home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data \
-| xargs basename -s _R1_001.fastq.gz | xargs -I{} /home/shared/kallisto/kallisto \
-quant -i ../data/cgigas_roslin_rna.index \
--o ../output/kallisto_01/{} \
--t 40 \
---single -l 100 -s 10 ../data/{}_L001_R1_001.fastq.gz
-
+# move to data directory
+cd ../data 
+# download fastq files to data directory 
+wget --recursive --no-parent --no-directories \
+--no-check-certificate \
+--accept '*.fastq.gz' \
+https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/
 ```

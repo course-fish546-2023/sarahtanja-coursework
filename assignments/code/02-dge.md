@@ -10,6 +10,8 @@ deferentially expressed genes.
 > Kallisto is a pseudo-aligner, it does not need a genome to align to!
 > it uses the sequences in the dataset to create it’s own ‘reference’
 
+------------------------------------------------------------------------
+
 ## Advance prep: Setup git hooks to automatically gitignore files &gt;100MB
 
 In this assignment we’re dealing with large files that will end up in
@@ -75,13 +77,17 @@ from tracking these files in the repository going forward.
 >
 >     #git reset --hard origin/master
 
+------------------------------------------------------------------------
+
 ## Running kallisto
 
-[Kallisto](https://pachterlab.github.io/kallisto/) is a software that
+[kallisto](https://pachterlab.github.io/kallisto/) is a software that
 can be downloaded and unzipped into a `programs` directory outside of
-the present working directory. In our case, it is already installed on
-raven (`/home/shared/kallisto/kallisto`), and can be ‘checked’ by
-running the `index` command as below:
+the repo.
+
+In our case, it is already installed on raven
+(`/home/shared/kallisto/kallisto`), and can be checked by running the
+`index` command as below:
 
     /home/shared/kallisto/kallisto index
 
@@ -98,12 +104,28 @@ running the `index` command as below:
     ## -k, --kmer-size=INT         k-mer (odd) length (default: 31, max value: 31)
     ##     --make-unique           Replace repeated target names with unique names
 
-## Step 4. Downloading Reference
+> If you need to download and install kallisto:
+>
+> 1.  navigate to a `programs` directory outside of the repo
+> 2.  grab the applicable program from the
+>     [website](https://pachterlab.github.io/kallisto/) using `wget`
+> 3.  uncompress the file by navigating to the `programs/kallisto`
+>     directory and running `gunzip`
+> 4.  check functionality with `index` command as above
+
+------------------------------------------------------------------------
+
+## Downloading Reference
+
+This code grabs the Pacific oyster fasta file of genes and does so
+ignoring the fact that *gannet* does not have a security certificate to
+authenticate (`--insecure`). This is usually not recommended however we
+know the server.
 
     # change to work in data directory
     cd ../data
     # download fna file to data directory
-    wget --no-check-certificate https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
+    wget https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
 
 creating an index
 
