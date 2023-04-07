@@ -6,7 +6,7 @@ output: 'md_document'
 ---
 
 ```{r, setup, include=FALSE}
-knitr::opts_chunk$set(highlight = TRUE, eval = FALSE)
+knitr::opts_chunk$set(highlight = TRUE)
 ```
 
 # Differential Gene Expression
@@ -96,7 +96,7 @@ In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`)
 
 This code grabs the Pacific oyster fasta file of genes and does so ignoring the fact that *gannet* does not have a security certificate to authenticate (`--insecure`). This is usually not recommended however we know the server (i.e. we trust we're not going to get a virus from this server).
 
-```{bash}
+```{bash, eval = FALSE}
 # change to work in data directory
 cd ../data
 # download the rna.fna file to data directory from the gannet server
@@ -105,7 +105,7 @@ curl --insecure -O https://gannet.fish.washington.edu/seashell/bu-github/nb-2023
 
 In the next code chunk we create the index file which **insert what the index file is for here**. Creating the index file can take some time (it is 1.6GB!) This code is indexing the file `rna.fna` while also renaming it as `cgigas_roslin_rna.index`. `/home/shared/kallisto/kallisto` is the absolute path to kallisto program, while the lines after the `index` command indicate where to get the data from (the `rna.fna` file) and where to write the file to.
 
-```{bash}
+```{bash, eval = FALSE}
 /home/shared/kallisto/kallisto \
 index -i \
 ../data/cgigas_roslin_rna.index \
@@ -118,7 +118,7 @@ index -i \
 
 Sequence reads are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`. This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
 
-```{bash}
+```{bash, eval = FALSE}
 # move to data directory
 cd ../data 
 # download fastq files to data directory 
@@ -149,7 +149,7 @@ The next chunk performs the following steps:
 -   `--single -l 100 -s 10`: Specify that the input file contains single-end reads (--single), with an average read length of 100 (-l 100) and a standard deviation of 10 (-s 10).
 -   The input file to process is specified using the {} placeholder, which is replaced by the base filename from the previous step.
 
-```{bash}
+```{bash, eval = FALSE}
 
 # mkdir ../output/kallisto_01
 
@@ -173,7 +173,7 @@ The specific options and arguments used in the command are as follows:
 -   `--name_sample_by_basedir`: Use the sample directory name (i.e., the final directory in the input file paths) as the sample name in the output matrix.
 -   And then there are the kallisto abundance files to use as input for creating the gene expression matrix.
 
-```{bash}
+```{bash, eval = FALSE}
 
 perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 --est_method kallisto \
@@ -220,7 +220,7 @@ Next, it creates a `data.frame` containing information about the experimental co
 The code then prints the top few rows of the results table and calculates the number of DEGs with an adjusted p-value less than or equal to 0.05. It plots the log2 fold changes versus the mean normalized counts for all genes, highlighting significant DEGs in red and adding horizontal lines at 2-fold upregulation and downregulation. Finally, it writes the list of significant DEGs to a file called \"DEGlist.tab\".
 
 If needed, install packages
-```{r}
+```{r, eval = FALSE}
 
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -275,12 +275,11 @@ deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 ```{r}
 head(deseq2.res)
 ```
-
+Count number of hits with adjusted p-value less then 0.05
 ```{r}
-# Count number of hits with adjusted p-value less then 0.05
 dim(deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ])
 ```
-
+Make plots
 ```{r}
 tmp <- deseq2.res
 # The main plot
@@ -294,8 +293,8 @@ points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
 # 2 FC lines
 abline(h=c(-1,1), col="blue")
 ```
-
-```{r}
+Write output to table
+```{r, eval = FALSE}
 write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
 
