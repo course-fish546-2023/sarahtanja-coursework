@@ -75,42 +75,28 @@ from tracking these files in the repository going forward.
 >
 >     #git reset --hard origin/master
 
-# Step 1. Download fastq.gz files
+## Running kallisto
 
-Download all the fastq.gz files (this takes a long time!)
-
-    # navigate to the /data directory
-    cd ../data
-    # download fastq.gz files using wget 
-    wget --recursive --no-parent --no-directories --no-check-certificate\
-    --accept '[DMN]\*001.fastq.gz'\
-    https://owl.fish.washington.edu/nightingales/C_gigas/
-
-## Step 2. Install Kallisto
-
-For this assignment we will be using kallisto (bash), DESeq2 (r).
-
-Create a directory in your home directory (outside of git repo) named
-`programs`, then use `wget` to download zipped program software into the
-`programs` directory
-
-    pwd
-    cd ../../../../
-    mkdir programs
-    cd programs 
-    wget https://github.com/pachterlab/kallisto/releases/download/v0.46.1/kallisto_linux-v0.46.1.tar.gz
-
-Unzip the file
-
-    gunzip ~/sarahtanja/programs/kallisto_linux-v0.46.1.tar.gz
-
-## Step 3. Running kallisto
-
-Kallisto is already installed on raven
-(`/home/shared/kallisto/kallisto`) &gt; Note: Cannot find `shared`
-folder under /home in raven… 04APR23
+[Kallisto](https://pachterlab.github.io/kallisto/) is a software that
+can be downloaded and unzipped into a `programs` directory outside of
+the present working directory. In our case, it is already installed on
+raven (`/home/shared/kallisto/kallisto`), and can be ‘checked’ by
+running the `index` command as below:
 
     /home/shared/kallisto/kallisto index
+
+    ## 
+    ## kallisto 0.46.1
+    ## Builds a kallisto index
+    ## 
+    ## Usage: kallisto index [arguments] FASTA-files
+    ## 
+    ## Required argument:
+    ## -i, --index=STRING          Filename for the kallisto index to be constructed 
+    ## 
+    ## Optional argument:
+    ## -k, --kmer-size=INT         k-mer (odd) length (default: 31, max value: 31)
+    ##     --make-unique           Replace repeated target names with unique names
 
 ## Step 4. Downloading Reference
 

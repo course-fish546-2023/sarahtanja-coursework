@@ -2,7 +2,7 @@
 title: "02-dge"
 author: "Sarah Tanja"
 date: "4/4/2023"
-output: md_document
+output: 'md_document'
 ---
 
 ```{r, setup, include=FALSE}
