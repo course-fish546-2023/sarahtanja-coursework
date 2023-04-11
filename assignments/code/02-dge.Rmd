@@ -209,7 +209,7 @@ perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 
 ------------------------------------------------------------------------
 
-## **Running DESeq2**
+## Running DESeq2
 
 This code performs differential expression analysis to identify deferentially expressed genes (DEGs) between a control condition and a desiccated condition.
 
@@ -232,7 +232,7 @@ BiocManager::install("DESeq2")
 Load packages
 ```{r results='hide', warning=FALSE, error=FALSE, message=FALSE}
 
-library(DESeq2)
+library(BiocManager)
 library(tidyverse)
 library(pheatmap)
 library(RColorBrewer)

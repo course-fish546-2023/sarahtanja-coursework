@@ -49,4 +49,4 @@ ggplot(data = mpg) +
 
 
 d)  **Of the many things we have done in class the past two weeks, what is one aspect you would like to revisit and spend more time on?**
-RNAseq. We used kallisto to 
+RNAseq, looking at the data output and interpreting what we see, or modifying the visualizations to show certain relationships or patterns in gene expression. We used kallisto to run a differential gene expression analysis on two treatments and create a plot and table of differentially expressed genes. I'd like to learn more about 1. how to highlight the patterns in gene expression in visualizations and 2. how to map RNAseq data to a known genome.
