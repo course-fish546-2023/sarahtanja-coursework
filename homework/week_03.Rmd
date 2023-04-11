@@ -33,6 +33,8 @@ A chunk is a mini coding window. You can add them to RMarkdown documents via 1. 
 ```{bash}
 ```
 
+I think I will be using `{bash}` and `{r}` code chunks the most... there is a keyboard shortcut for `{r}` chunks... and I'm going to make my own shortcut for `{bash}` chunks. 
+Inline code like `{r} 1+2` cannot be executed... it is a text that you can copy and put into a chunk, or terminal, where the code is executable. 
 #### **c. What's gone wrong with this code? Why are the points not blue?**
 
 ```{r}

@@ -22,7 +22,12 @@ via 1. keyboard shortcut (for example `Cmd/Ctrl + Alt + i` inserts an
 manually typing \`\`\`{r} \`\`\` (or replace `r` with `bash` for a
 different code language) to render:
 
-#### **c. What’s gone wrong with this code? Why are the points not blue?**
+I think I will be using `{bash}` and `{r}` code chunks the most… there
+is a keyboard shortcut for `{r}` chunks… and I’m going to make my own
+shortcut for `{bash}` chunks. Inline code like `{r} 1+2` cannot be
+executed… it is a text that you can copy and put into a chunk, or
+terminal, where the code is executable. \#### **c. What’s gone wrong
+with this code? Why are the points not blue?**
 
     ggplot(data = mpg) + 
         geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
