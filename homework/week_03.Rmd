@@ -1,15 +1,8 @@
 ---
 title: "Week 03 Questions"
-
-format:
-  html:
-    code-fold: false
-    code-tools: true
-    code-copy: true
-    highlight-style: github
-    code-overflow: wrap
+output: 'md_document'
 ---
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
@@ -37,8 +30,6 @@ c)  **What's gone wrong with this code? Why are the points not blue?**
 ggplot(data = mpg) + 
     geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 ```
-
-![plot](https://d33wubrfki0l68.cloudfront.net/fda836ccf904bda73f021f4802803bc134145ffa/0c9a7/visualize_files/figure-html/unnamed-chunk-11-1.png)
 
 The points are not blue because inside the aesthetics function aes(), you are mapping an aesthetic characteristic of a graph (like the x axis, the y axis, the size, shape, and color of the points) to a **variable** in the data frame... "blue" is not a variable in the `mpg` data frame. If you want the points to be blue, you add that code outside of the aes() function, but wrapped inside the mapping() function as below:
 
