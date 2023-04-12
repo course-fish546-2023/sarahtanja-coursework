@@ -36,7 +36,6 @@ Pre-reqs
 -   Unix OS
 
 -   Machine with large file storage capacity
-
     -   Raven Roberts Lab Server
 
 ------------------------------------------------------------------------
@@ -61,6 +60,7 @@ if ("DESeq2" %in% rownames(installed.packages()) == 'FALSE') BiocManager::instal
 Load Libraries
 
 ```{r libraries}
+library(knitr)
 library(tidyverse)
 library(kableExtra)
 library(DESeq2)
@@ -103,7 +103,11 @@ chmod +x .git/hooks/pre-commit
 
 With these changes, whenever you run a git commit command, Git will first execute the pre-commit hook, which will automatically add any files larger than 100 MB to the .gitignore file. This will prevent Git from tracking these files in the repository going forward.
 
+<<<<<<< HEAD
 ## ⚠️In the event of a big (\>100MB) mistake...
+=======
+## ⚠️In the event of a big (>100MB) mistake...
+>>>>>>> f39185d040751c24ed0dbb814762117326d586fa
 
 > In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push
 
