@@ -1,68 +1,32 @@
 ---
 title: "Differential Gene Expression with Kallisto & DESeq2"
-subtitle: "a pretty report for [FISH 546](https://sr320.github.io/course-fish546-2023/assignments/03-knit.html)"
+subtitle: "a pretty report"
 author: "Sarah Tanja"
-date: "`r format(Sys.time(), '%d %B, %Y')`"  
-output: 
-  html_document:
-    theme: sandstone
-    highlight: zenburn
-    toc: true
-    toc_float: true
-    number_sections: true
-    code_folding: show
-    code_download: true
+date: "4/12/2023"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    code-copy: true
+    highlight-style: github
+    code-overflow: wrap
 ---
 
-```{r setup, include=FALSE}
+```{r, setup, include=FALSE}
 knitr::opts_chunk$set(
-  highlight = TRUE,    # Highlight code
-  echo = TRUE,         # Display code chunks
-  eval = FALSE,        # Evaluate code chunks
-  warning = TRUE,     # Hide warnings
-  message = TRUE,     # Hide messages
-  fig.width = 6,       # Set plot width in inches
-  fig.height = 4,      # Set plot height in inches
-  fig.align = "center" # Align plots to the center
+  highlight = TRUE,
+  eval = FALSE
   )
 ```
 
+
 # Advanced Prep
+
+<https://sr320.github.io/course-fish546-2023/assignments/02-DGE.html>
 
 For this assignment you will be taking RNA-seq data, and running a common differential gene expression analysis, without the use of a reference genome. The end product will be a plot and table of differentially expressed genes.
 
-> Kallisto is a pseudo-aligner, it does not need a genome to align to! It uses the sequences in the dataset to create it's own 'reference'
-
-Install Packages
-
-```{r packages}
-
-if ("knitr" %in% rownames(installed.packages()) == 'FALSE') BiocManager::install("knitr") 
-if ("tidyverse" %in% rownames(installed.packages()) == 'FALSE') install.packages('tidyverse')
-if ("kableExtra" %in% rownames(installed.packages()) == 'FALSE') install.packages('kableExtra')
-if ("pheatmap" %in% rownames(installed.packages()) == 'FALSE') install.packages('pheatmap') 
-if ("RColorBrewer" %in% rownames(installed.packages()) == 'FALSE') install.packages('RColorBrewer') 
-if ("data.table" %in% rownames(installed.packages()) == 'FALSE') install.packages('data.table') 
-if ("DT" %in% rownames(installed.packages()) == 'FALSE') install.packages('DT')
-if ("Biostrings" %in% rownames(installed.packages()) == 'FALSE') install.packages('Biostrings') 
-if ("BiocManager" %in% rownames(installed.packages()) == 'FALSE') install.packages('BiocManager') 
-if ("DESeq2" %in% rownames(installed.packages()) == 'FALSE') BiocManager::install('DESeq2')
- 
-```
-
-Load Libraries
-
-```{r libraries}
-library(knitr)
-library(tidyverse)
-library(kableExtra)
-library(DESeq2)
-library(pheatmap)
-library(RColorBrewer)
-library(data.table)
-library(DT)
-library(Biostrings)
-```
+> Kallisto is a pseudo-aligner, it does not need a genome to align to! it uses the sequences in the dataset to create it's own 'reference'
 
 ------------------------------------------------------------------------
 
@@ -70,15 +34,11 @@ library(Biostrings)
 
 In this assignment we're dealing with large files that will end up in the ../data and ../output directories. To prevent those large files from clogging up our ability to 'git push', we can use built-in hooks to automatically ignore files larger than 100 MB (no matter the directory or file name!). Here are the steps to follow:
 
--   Create a new text file in the `.git/hooks/` directory of your repository called `pre-commit.txt`
+-   Create a new text file in the .git/hooks/ directory of your repository called pre-commit. *Select the `More` tab with the gear icon under the RStudio Files navigator bar and select 'show hidden files' to see the .git folder*.
 
-    > *Select the `More` tab with the gear icon under the RStudio Files navigator bar and select 'show hidden files' to see the .git folder*.
+-   Add the following code to the pre-commit file:
 
--   Add the following text to the `.git/hooks/pre-commit.txt` file:
-
-``` {r, engine=bash, style="color: sage"}
-#!/bin/sh
-
+```         
 # Maximum file size (in bytes)
 max_file_size=104857600
 
@@ -90,13 +50,13 @@ This code sets the max_file_size variable to 100 MB and then uses the find comma
 
 Save the pre-commit file and make it executable by running the following command in Terminal:
 
-``` {r, engine=bash}
-chmod +x .git/hooks/pre-commit.txt
+```         
+chmod +x .git/hooks/pre-commit
 ```
 
 With these changes, whenever you run a git commit command, Git will first execute the pre-commit hook, which will automatically add any files larger than 100 MB to the .gitignore file. This will prevent Git from tracking these files in the repository going forward.
 
-## ⚠️In the event of a big (>100MB) mistake...
+## ⚠️In the event of a big (\>100MB) commit...
 
 > In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push
 
@@ -104,6 +64,7 @@ With these changes, whenever you run a git commit command, Git will first execut
 ⚠️**! warning this will overwrite any changes you made after your last successful push !**⚠️
 :::
 
+>
 > If you still want to continue, you can un-comment the code and follow [this](#0){style="background-color: transparent; font-size: 11.4pt;"} instruction:
 >
 > First, update all `origin/<branch>` refs to latest:
@@ -135,6 +96,7 @@ In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`)
 ```{bash}
 /home/shared/kallisto/kallisto version
 ```
+
 
 > If you need to download and install kallisto:
 >
@@ -169,39 +131,7 @@ index -i \
 
 # Download sequence reads
 
-The samples that we are looking at in this assignment are Pacific oyster *Crassostrea gigas*, 12 of which are 'control' oysters under normal conditions, and 12 of which are 'dessicated', shown in this table:
-
-|               |          |
-|---------------|----------|
-| Sample        | SampleID |
-| D-control     | D54      |
-| D-control     | D55      |
-| D-control     | D56      |
-| D-control     | D57      |
-| D-control     | D58      |
-| D-control     | D59      |
-| D-control     | M45      |
-| D-control     | M46      |
-| D-control     | M48      |
-| D-control     | M49      |
-| D-control     | M89      |
-| D-control     | M90      |
-| D-desiccation | N48      |
-| D-desiccation | N49      |
-| D-desiccation | N50      |
-| D-desiccation | N51      |
-| D-desiccation | N52      |
-| D-desiccation | N53      |
-| D-desiccation | N54      |
-| D-desiccation | N55      |
-| D-desiccation | N56      |
-| D-desiccation | N57      |
-| D-desiccation | N58      |
-| D-desiccation | N59      |
-
-Sequence reads for these samples are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`.
-
-This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
+Sequence reads are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`. This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
 
 ```{bash, eval = FALSE}
 # move to data directory
@@ -296,16 +226,15 @@ perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 
 # Running DESeq2
 
-This code performs differential expression analysis to identify deferentially expressed genes (DEGs) between a control condition and a desiccated condition in .
+This code performs differential expression analysis to identify deferentially expressed genes (DEGs) between a control condition and a desiccated condition.
 
 First, it reads in a count matrix of isoform counts generated by `kallisto`, with row names set to the gene/transcript IDs and the first column removed. It then rounds the counts to whole numbers.
 
 Next, it creates a `data.frame` containing information about the experimental conditions and sets row names to match the column names in the count matrix. It uses this information to create a `DESeqDataSet` object, which is then passed to the `DESeq()` function to fit a negative binomial model and estimate dispersions. The `results()` function is used to extract the results table, which is ordered by gene/transcript ID.
 
-The code then prints the top few rows of the results table and calculates the number of DEGs with an adjusted p-value less than or equal to 0.05. It plots the log2 fold changes versus the mean normalized counts for all genes, highlighting significant DEGs in red and adding horizontal lines at 2-fold upregulation and downregulation. Finally, it writes the list of significant DEGs to a file called "DEGlist.tab".
+The code then prints the top few rows of the results table and calculates the number of DEGs with an adjusted p-value less than or equal to 0.05. It plots the log2 fold changes versus the mean normalized counts for all genes, highlighting significant DEGs in red and adding horizontal lines at 2-fold upregulation and downregulation. Finally, it writes the list of significant DEGs to a file called \"DEGlist.tab\".
 
 If needed, install packages
-
 ```{r, eval = FALSE}
 
 if (!require("BiocManager", quietly = TRUE))
@@ -316,7 +245,6 @@ BiocManager::install("DESeq2")
 ```
 
 Load packages
-
 ```{r results='hide', warning=FALSE, error=FALSE, message=FALSE}
 
 library(BiocManager)
@@ -327,8 +255,7 @@ library(data.table)
 
 ```
 
-Read in count matrix
-
+Read in count matrix 
 ```{r}
 
 countmatrix <- read.delim("../output/kallisto_01.isoform.counts.matrix", header = TRUE, sep = '\t')
@@ -339,14 +266,12 @@ head(countmatrix)
 ```
 
 Round integers up to whole numbers for analysis
-
 ```{r}
 countmatrix <- round(countmatrix, 0)
 str(countmatrix)
 ```
 
 Get DEGs based on dessication
-
 ```{r}
 deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("desicated", 12))), 
                              type=factor(rep("single-read", 24)))
@@ -365,15 +290,11 @@ deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 ```{r}
 head(deseq2.res)
 ```
-
 Count number of hits with adjusted p-value less then 0.05
-
 ```{r}
 dim(deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ])
 ```
-
 Make plots
-
 ```{r results='markup', warning=FALSE}
 tmp <- deseq2.res
 # The main plot
@@ -387,9 +308,9 @@ points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
 # 2 FC lines
 abline(h=c(-1,1), col="blue")
 ```
-
 Write output to table
-
 ```{r, eval = FALSE}
 write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
+
+
