@@ -27,7 +27,7 @@ Open the remote RStudio server through [JupyterHub Instance](https://jupyter.rtt
 
 Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/){style="font-size: 11.4pt;"} page, and copy [the link]{.underline} to the software ***for your operating system***. This is an important first step! Here I choose \`[ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz)\` because I am working in a Linux OS environment through the cloud instance of UW's JupyterHub, which operates a Linux OS.
 
-![software download for NCBI blast](ncbiblastdownload.png)
+![software download for NCBI blast](images/ncbiblastdownload.png)
 
 We are going to first try to downloaded the [ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz) , and we'll do this not by 'clicking' on the file and downloading it locally to your computer, but by downloading it using the `curl -O` bash command and placing it in a new folder we'll create named 'applications' outside of the repository.
 

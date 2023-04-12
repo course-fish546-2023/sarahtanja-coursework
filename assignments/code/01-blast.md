@@ -19,19 +19,17 @@ are in the sample, and what do they do?”
 ### Step 1. Download Software
 
 Open the remote RStudio server through
-<a href="https://jupyter.rttl.uw.edu/2023-spring-fish-546-a"
-style="font-size: 11.4pt;">JupyterHub Instance</a>.
+<a href="https://jupyter.rttl.uw.edu/2023-spring-fish-546-a" style="font-size: 11.4pt;">JupyterHub Instance</a>.
 
 Navigate to the
-<a href="https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/"
-style="font-size: 11.4pt;">NCBI blast downloads</a> page, and copy
-<u>the link</u> to the software ***for your operating system***. This is
-an important first step! Here I choose
+<a href="https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/" style="font-size: 11.4pt;">NCBI blast downloads</a>
+page, and copy <u>the link</u> to the software ***for your operating
+system***. This is an important first step! Here I choose
 \`[ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz)\`
 because I am working in a Linux OS environment through the cloud
 instance of UW’s JupyterHub, which operates a Linux OS.
 
-![software download for NCBI blast](ncbiblastdownload.png)
+![software download for NCBI blast](images/ncbiblastdownload.png)
 
 We are going to first try to downloaded the
 [ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz)
