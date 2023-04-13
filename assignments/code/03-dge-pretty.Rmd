@@ -31,12 +31,9 @@ knitr::opts_chunk$set(
 
 For this assignment you will be taking RNA-seq data, and running a common differential gene expression analysis, without the use of a reference genome. The end product will be a plot and table of differentially expressed genes.
 
-Pre-reqs
-
--   Unix OS
-
--   Machine with large file storage capacity
-    -   Raven Roberts Lab Server
+::: callout-caution
+Pre-reqs: This code contains relative paths that only work within the *raven* Roberts' Lab Server, where the data for this assignment is housed
+:::
 
 ------------------------------------------------------------------------
 
@@ -83,7 +80,7 @@ In this assignment we're dealing with large files that will end up in the ../dat
 
 -   Add the following text to the `.git/hooks/pre-commit` file:
 
-```{r, engine='bash'}
+```
 #!/bin/sh
 
 # Maximum file size (in bytes)
@@ -103,11 +100,8 @@ chmod +x .git/hooks/pre-commit
 
 With these changes, whenever you run a git commit command, Git will first execute the pre-commit hook, which will automatically add any files larger than 100 MB to the .gitignore file. This will prevent Git from tracking these files in the repository going forward.
 
-<<<<<<< HEAD
+
 ## ⚠️In the event of a big (\>100MB) mistake...
-=======
-## ⚠️In the event of a big (>100MB) mistake...
->>>>>>> f39185d040751c24ed0dbb814762117326d586fa
 
 > In the event that you accidentally committed a file \>100MB, you can reset to the last successful git master branch push
 
@@ -115,7 +109,7 @@ With these changes, whenever you run a git commit command, Git will first execut
 ⚠️**! warning this will overwrite any changes you made after your last successful push !**⚠️
 :::
 
-> If you still want to continue, you can un-comment the code and follow [this](#0){style="background-color: transparent; font-size: 11.4pt;"} instruction:
+> If you still want to continue, you can un-comment the code and follow this instruction:
 >
 > First, update all `origin/<branch>` refs to latest:
 >
@@ -143,7 +137,7 @@ With these changes, whenever you run a git commit command, Git will first execut
 
 > Kallisto is a pseudo-aligner, it does not need a genome to align to! It uses the sequences in the dataset to create it's own 'reference'
 
-In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`), and can be checked by running the `version` command as below:
+In our case, it is already installed on *raven* (`/home/shared/kallisto/kallisto`), and can be checked by running the `version` command as below:
 
 ```{r, engine='bash'}
 /home/shared/kallisto/kallisto version
@@ -160,7 +154,7 @@ In our case, it is already installed on raven (`/home/shared/kallisto/kallisto`)
 
 # Downloading Reference
 
-This code grabs the Pacific oyster fasta file of genes and does so ignoring the fact that *gannet* does not have a security certificate to authenticate (`--insecure`). This is usually not recommended however we know the server (i.e. we trust we're not going to get a virus from this server).
+This code grabs the Pacific oyster fasta file (rna.fna) of genes and does so ignoring the fact that *gannet* does not have a security certificate to authenticate (`--insecure`). This is usually not recommended however we know the server (i.e. we trust we're not going to get a virus from this server).
 
 ```{r, engine='bash'}
 # change to work in data directory
@@ -169,7 +163,7 @@ cd ../data
 curl --insecure -O https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/rna.fna
 ```
 
-In the next code chunk we create the index file which **insert what the index file is for here**. Creating the index file can take some time (it is 1.6GB!) This code is indexing the file `rna.fna` while also renaming it as `cgigas_roslin_rna.index`. `/home/shared/kallisto/kallisto` is the absolute path to kallisto program, while the lines after the `index` command indicate where to get the data from (the `rna.fna` file) and where to write the file to.
+In the next code chunk we create the index file which **insert what the index file is for here**. Creating the index file can take some time (it is 1.6GB!) This code is indexing the file `rna.fna` while also renaming it as `cgigas_roslin_rna.index`. `/home/shared/kallisto/kallisto` is the absolute path to the kallisto program from within the *raven* server, while the lines after the `index` command indicate where to get the data from (the `rna.fna` file) and where to write the file to.
 
 ```{r, engine='bash'}
 /home/shared/kallisto/kallisto \
@@ -182,7 +176,7 @@ index -i \
 
 # Download sequence reads
 
-The samples that we are looking at in this assignment are Pacific oyster *Crassostrea gigas*, 12 of which are 'control' oysters under normal conditions, and 12 of which are 'dessicated', shown in this table:
+The samples that we are looking at in this assignment are Pacific oyster *Crassostrea gigas*, 12 of which are 'control' oysters under normal conditions, and 12 of which are 'desiccated', shown in this table:
 
 |               |          |
 |---------------|----------|
@@ -214,6 +208,7 @@ The samples that we are looking at in this assignment are Pacific oyster *Crasso
 
 Sequence reads for these samples are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`.
 
+
 This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
 
 ```{r, engine='bash'}
@@ -226,9 +221,10 @@ wget --recursive --no-parent --no-directories \
 https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/
 ```
 
+
 Check to make sure all 24 files were downloaded successfully
 
-```{r, engine='bash'}
+```{r, engine='bash', eval=TRUE}
 # move to data directory
 cd ../data
 # list all files that end with `.gz` extension, count the files in the list
@@ -309,17 +305,17 @@ perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 
 # Running DESeq2
 
-This code performs differential expression analysis to identify deferentially expressed genes (DEGs) between a control condition and a desiccated condition in .
+This code performs differential expression analysis to identify deferentially expressed genes (DEGs) between a control condition and a desiccated condition in Pacific oysters.
 
 First, it reads in a count matrix of isoform counts generated by `kallisto`, with row names set to the gene/transcript IDs and the first column removed. It then rounds the counts to whole numbers.
 
-Next, it creates a `data.frame` containing information about the experimental conditions and sets row names to match the column names in the count matrix. It uses this information to create a `DESeqDataSet` object, which is then passed to the `DESeq()` function to fit a negative binomial model and estimate dispersions. The `results()` function is used to extract the results table, which is ordered by gene/transcript ID.
+ The `results()` function is used to extract the results table, which is ordered by gene/transcript ID.
 
 The code then prints the top few rows of the results table and calculates the number of DEGs with an adjusted p-value less than or equal to 0.05. It plots the log2 fold changes versus the mean normalized counts for all genes, highlighting significant DEGs in red and adding horizontal lines at 2-fold upregulation and downregulation. Finally, it writes the list of significant DEGs to a file called "DEGlist.tab".
 
 Read in count matrix
 
-```{r}
+```{r, eval=TRUE}
 
 countmatrix <- read.delim("../output/kallisto_01.isoform.counts.matrix", header = TRUE, sep = '\t')
 rownames(countmatrix) <- countmatrix$X
@@ -330,23 +326,27 @@ head(countmatrix)
 
 Round integers up to whole numbers for analysis
 
-```{r}
+```{r, eval=TRUE}
 countmatrix <- round(countmatrix, 0)
 str(countmatrix)
 ```
 
-Get DEGs based on dessication
+Here the code creates a `data.frame` named `deseq2.dds` containing information about the experimental conditions. and . It uses this information to create a `DESeqDataSet` object, 
 
-```{r}
+```{r, eval=TRUE}
+
 deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("desicated", 12))), 
                              type=factor(rep("single-read", 24)))
+# set row names to match the column names in the count matrix
 rownames(deseq2.colData) <- colnames(data)
+
+# DESeqDataSet object created using `the following`DESeqDataSetFromMatrix` function
 deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
                                      colData = deseq2.colData, 
                                      design = ~ condition)
 ```
-
-```{r}
+The `DESeqDataSet` object, named `deseq.dds`, is then passed to the `DESeq()` function to fit a negative binomial model and estimate dispersions.
+```{r, eval=TRUE, cache=TRUE}
 deseq2.dds <- DESeq(deseq2.dds)
 deseq2.res <- results(deseq2.dds)
 deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
