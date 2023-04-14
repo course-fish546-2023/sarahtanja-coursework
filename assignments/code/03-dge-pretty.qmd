@@ -3,31 +3,40 @@ title: "Differential Gene Expression Analysis with Kallisto & DESeq2"
 subtitle: "a pretty report for [FISH 546](https://sr320.github.io/course-fish546-2023/assignments/03-knit.html)"
 author: "Sarah Tanja"
 date: "`r format(Sys.time(), '%d %B, %Y')`"  
+engine: knitr
+knitr:
+  opts_chunk:
+    class-output: hscroll
 format:
   html:
+    df-print: paged
     toc: true
     smooth-scroll: true
     link-external-icon: true
     link-external-newwindow: true
-    code-fold: true
+    code-fold: show
     code-tools: true
     code-copy: true
-    highlight-style: zenburn
+    highlight-style: arrow
     code-overflow: wrap
     theme:
       light: sandstone
       dark: solar
-output: 
-  html_document:
-    theme: sandstone
-    highlight: zenburn
-    toc: true
-    toc_float: true
-    number_sections: true
-    code_folding: show
-    code_download: true
-    callout-appearance: default
 ---
+
+```{css, echo = FALSE}
+.output {
+max-height: 500px;
+overflow-y: scroll;
+}
+```
+
+```{css, echo=FALSE}
+.hscroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -54,7 +63,7 @@ For this assignment you will be taking RNA-seq data, and running a common differ
 
 Install Packages
 
-```{r packages, eval=TRUE, cache=TRUE}
+```{r install-packages, eval=TRUE, cache=TRUE}
 
 if ("knitr" %in% rownames(installed.packages()) == 'FALSE') BiocManager::install("knitr") 
 if ("tidyverse" %in% rownames(installed.packages()) == 'FALSE') install.packages('tidyverse')
@@ -71,7 +80,7 @@ if ("DESeq2" %in% rownames(installed.packages()) == 'FALSE') BiocManager::instal
 
 Load Libraries
 
-```{r libraries, eval=TRUE, cache=TRUE, results='hide'}
+```{r load-packages, eval=TRUE, cache=TRUE, output=FALSE}
 library(knitr)
 library(tidyverse)
 library(kableExtra)
@@ -85,7 +94,7 @@ library(Biostrings)
 
 ------------------------------------------------------------------------
 
-## Setup git hooks to automatically gitignore large files 
+## Setup git hooks to automatically gitignore large files
 
 In this assignment we're dealing with large files that will end up in the ../data and ../output directories. To prevent those large files from clogging up our ability to 'git push', we can use built-in hooks to automatically ignore files larger than 100 MB (no matter the directory or file name!). Here are the steps to follow:
 
@@ -110,6 +119,7 @@ This code sets the max_file_size variable to 100 MB and then uses the find comma
 Save the pre-commit file and make it executable by running the following command in Terminal:
 
 ```{r, engine='bash'}
+cd ../../
 chmod +x .git/hooks/pre-commit
 ```
 
@@ -254,7 +264,7 @@ The next chunk performs the following steps:
 -   The input file to process is specified using the {} placeholder, which is replaced by the base filename from the previous step.
 
 ```{r, engine='bash'}
-
+# uncomment the line of code below 
 # mkdir ../output/kallisto_01
 
 find ../data/*fastq.gz \
@@ -338,7 +348,7 @@ Round integers up to whole numbers for analysis
 
 ```{r, eval=TRUE}
 countmatrix <- round(countmatrix, 0)
-str(countmatrix)
+head(countmatrix)
 ```
 
 Here the code creates a `data.frame` named `deseq2.colData` containing information about the experimental conditions (control & desiccated). It uses the column data dataframe named `deseq2.colData` to create a `DESeqDataSet` object using the `DESeqDataSetFromMatrix` function from the DESeq2 package.
@@ -358,14 +368,14 @@ deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
 
 The `DESeqDataSet` object, named `deseq.dds`, is then passed to the `DESeq()` function to fit a negative binomial model and estimate dispersions.
 
-```{r, eval=TRUE, cache=TRUE}
+```{r, eval=TRUE, cache=TRUE, output=FALSE}
 deseq2.dds <- DESeq(deseq2.dds)
 deseq2.res <- results(deseq2.dds)
 deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 ```
 
-```{r, eval=TRUE}
-head(deseq2.res)
+```{r, eval=TRUE, output=FALSE}
+str(deseq2.res)
 ```
 
 Count number of hits with adjusted p-value less then 0.05
@@ -380,7 +390,7 @@ dim(deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ])
 
 What is PCA? Very simply, PCA dimensionally reduces the number of variables of a data set while preserving as much information as possible.
 
-::: callout-info
+::: callout-tip 
 Checkout [this YouTube video](https://youtu.be/FD4DeN81ODY) that visually explains PCA!
 :::
 
@@ -391,7 +401,7 @@ plotPCA(vsd, intgroup = "condition")
 
 #### Heatmap plot
 
-```{r heatmap, eval=TRUE}
+```{r heatmap, eval=TRUE, cache=TRUE}
 # Select top 50 differentially expressed genes
 res <- results(deseq2.dds)
 res_ordered <- res[order(res$padj), ]
@@ -407,9 +417,12 @@ pheatmap(log_counts_top, scale = "row")
 
 #### Understanding Log2 Fold Change
 
+::: callout-tip
 First Checkout this great article [Comparing experimental conditions: differential expression analysis](https://biocorecrg.github.io/CRG_Bioinformatics_for_Biologists/differential_gene_expression.html#:~:text=Fold%20change%3A&text=This%20value%20is%20typically%20reported,of%202%5E1.5%20%E2%89%88%202.82.)
+:::
 
-In the article linked above, *Fold Change* is explained: Fold change: For a given comparison, a positive fold change value indicates an increase of expression, while a negative fold change indicates a decrease in expression. This value is typically reported in logarithmic scale (base 2). For example, log2 fold change of 1.5 for a specific gene in the "WT vs KO comparison" means that the expression of that gene is increased in WT relative to KO by a multiplicative factor of 2\^1.5 ≈ 2.82.
+In the article linked above, *Fold Change* is explained: 
+> For a given comparison, a positive fold change value indicates an increase of expression, while a negative fold change indicates a decrease in expression. This value is typically reported in logarithmic scale (base 2). For example, log2 fold change of 1.5 for a specific gene in the "WT vs KO comparison" means that the expression of that gene is increased in WT relative to KO by a multiplicative factor of 2\^1.5 ≈ 2.82.
 
 ```{r results='markup', eval=TRUE, cache=TRUE}
 tmp <- deseq2.res
@@ -427,7 +440,7 @@ abline(h=c(-1,1), col="blue")
 
 #### Volcano plot
 
-```{r newplot, eval=TRUE}
+```{r newplot, eval=TRUE, cache=TRUE}
 # Prepare the data for plotting
 res_df <- as.data.frame(deseq2.res)
 res_df$gene <- row.names(res_df)
@@ -446,6 +459,8 @@ volcano_plot <- ggplot(res_df, aes(x = log2FoldChange, y = -log10(padj), color =
 print(volcano_plot)
 ```
 
+## Table of DEGs
+
 Save the list of Differentially Expressed Genes (DEGs)! Write the output to a table
 
 ```{r, eval=TRUE}
@@ -454,9 +469,14 @@ write.table(tmp.sig, "../output/DEGlist.tab", sep = '\t', row.names = T)
 
 Let's take a look at this list...
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, }
 deglist <- read.csv("../output/DEGlist.tab", sep = '\t', header = TRUE)
 deglist$RowName <- rownames(deglist)
 deglist2 <- deglist[, c("RowName", "pvalue")] # Optionally, reorder the columns
-print(deglist2)
+head(deglist2)
 ```
+
+Now that we have the list and a few visualizations, we can move to the part where we identify what these genes actually do...
+
+[Continue this analysis using Gene Ontology (GO) term annotations and NCBI BLAST](https://sr320.github.io/course-fish546-2023/assignments/01-blast.html)
+
