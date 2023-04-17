@@ -1,5 +1,5 @@
 # sarahtanja-coursework
 ## This repo is for coursework completed by Sarah Tanja during the Spring '23 quarter in FISH 546 
 
-The repo is cloned local to Sarah's Window's OS PC, and is also cloned local to her Windows Subsystem for Linux (WSL).
-This is a test edit from WSL
+The `homework` folder contains responses to weekly question sets.
+The `assignments` folder contains reproducible code that can function as templates or examples for executing bioinformatics pipelines learned in this class.
