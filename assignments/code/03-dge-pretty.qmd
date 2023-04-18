@@ -3,10 +3,6 @@ title: "Differential Gene Expression Analysis with Kallisto & DESeq2"
 subtitle: "a pretty report for [FISH 546](https://sr320.github.io/course-fish546-2023/assignments/03-knit.html)"
 author: "Sarah Tanja"
 date: "`r format(Sys.time(), '%d %B, %Y')`"  
-engine: knitr
-knitr:
-  opts_chunk:
-    class-output: hscroll
 format:
   html:
     df-print: paged
@@ -21,22 +17,9 @@ format:
     code-overflow: wrap
     theme:
       light: sandstone
-      dark: solar
+      dark: vapor
+  gfm: default
 ---
-
-```{css, echo = FALSE}
-.output {
-max-height: 500px;
-overflow-y: scroll;
-}
-```
-
-```{css, echo=FALSE}
-.hscroll {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
