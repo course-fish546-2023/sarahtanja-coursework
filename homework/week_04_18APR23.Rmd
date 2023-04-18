@@ -1,15 +1,14 @@
 ---
-title: "week_04"
+title: "Week 04 Questions"
 author: "Sarah Tanja"
 date: "4/18/2023"
-output: html_document
+output: 
+  github_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
-
-# Week 04 Questions
 
 a)  **What is `tmux` and how does this relate to our current way of working on raven?**
 
