@@ -9,7 +9,9 @@ output: md_document
 knitr::opts_chunk$set(highlight = TRUE, eval = FALSE)
 ```
 
-This assignment is to take set of unknown protein sequences, and annotate them with GO terms. What is a Gene Ontology (GO) term? 👀 see this [introduction to GO annotation](http://geneontology.org/docs/go-annotations/).
+This assignment is to take set of unknown protein sequences, and annotate them with GO terms using BLAST  (Basic Local Alignment Search Tool).
+
+What is a Gene Ontology (GO) term? 👀 see this [introduction to GO annotation](http://geneontology.org/docs/go-annotations/).
 
 tl;dr: GO term annotation helps to answer questions like, 'What proteins are in the sample, and what do they do?"
 
