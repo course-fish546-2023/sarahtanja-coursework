@@ -1,0 +1,36 @@
+---
+title: "week_04"
+author: "Sarah Tanja"
+date: "4/17/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+a)  **What is `tmux` and how does this relate to our current way of working on raven?**
+
+tmux is 'terminal multiplexing'
+
+b)  **What is `ssh` and what would the code be you would type if you were going to `ssh` into raven?**
+
+ssh is secure shell, it is a protocol for secure remote connection to other computers.
+
+```
+ssh stanja@raven.fish.washington.edu
+```
+
+
+c)  **What has been the most challenging part of your research project? Are you happy with your organization skills? If not what could be improved?**
+
+The most challenging part is getting (my own) data. I'm still preparing to do DNA/RNA extractions but am waiting for a piece of equipment. Ordering materials and a homogenizer have been painfully slow...
+
+On the bioinformatics front-- I'm struggling with:
+- hashes
+- multi-stressor DGE analysis
+- Where will I run my scripts? JupyterHub? raven? Hyak?
+
+d)  **For last weeks assignment what did you appreciate the most about knitting documents?**
+`cache = TRUE` was extremely useful for knitting! 
