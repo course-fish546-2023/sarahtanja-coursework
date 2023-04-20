@@ -24,6 +24,19 @@
 # run the following in the Rterminal, while connected to mox:
 # scp assignments/code/04-* stanja@mox.hyak.uw.edu:/gscratch/scrubbed/stanja/assign_04
 
+# type the following to schedule the job
+# sbatch 04-job-sh
+
+# Then on mox, inside the assign_04 directory you will type”
+
+# sbatch 04-job-sh to schedule the job.
+
+# Once done you should have a couple of new files in the directory.
+
+# You will want to check them to see if everything worked and then move the output back to your repo…
+
+# rsync -avz stanja@mox.hyak.uw.edu:/gscratch/scrubbed/stanja/assign_04/ 
+
 #run a python script you wrote!
 module load intel-python3_2017
 
