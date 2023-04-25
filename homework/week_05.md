@@ -14,7 +14,7 @@ features than RMarkdown.
 
 > **Tip**
 >
-> I particularly like the `::: {callout-tip}  :::` code wrap that
+> I particularly like the `::: {callout-tip}  :::` wrap that
 > automatically highlights and formats text for different purposes
 > (note, warning, important, tip, caution)
 
@@ -55,17 +55,13 @@ Themes are probably the easiest uniform way to change slide appearance.
 There are 10 built-in themes, or you can create your own. To add a
 theme, call it out in the YAML front matter.
 
-------------------------------------------------------------------------
+    ---
+    title: "Presentation"
 
-title: “Presentation”
-
-format:
-
-revealjs:
-
-theme: dark
-
-------------------------------------------------------------------------
+    format:
+      revealjs:
+        theme: dark
+    ---
 
 Here is the full list of available themes:
 

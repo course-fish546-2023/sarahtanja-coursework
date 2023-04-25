@@ -16,8 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Quarto is very similar to RMarkdown, and was built by the same people. Why use Quarto over RMarkdown? It uses Pandoc to be compatible with rendering many different output formats. It has a few more advanced features than RMarkdown.
 
 ::: {.callout-tip}  
-I particularly like the `::: {callout-tip}  :::` code wrap that automatically highlights and formats text for different purposes (note, warning, important, tip, caution)
-
+I particularly like the `::: {callout-tip}  :::` wrap that automatically highlights and formats text for different purposes (note, warning, important, tip, caution)
 :::
 
 ### How do you make columns using Revealjs in Quarto Presentations?
@@ -48,17 +47,15 @@ There seem to be many ways to customize slides using `format: revealjs`. You can
 
 Themes are probably the easiest uniform way to change slide appearance. There are 10 built-in themes, or you can create your own. To add a theme, call it out in the YAML front matter.
 
+```
 ---
-
 title: "Presentation"
 
 format:
-
-revealjs:
-
-theme: dark
-
+  revealjs:
+    theme: dark
 ---
+```
 
 Here is the full list of available themes:
 
