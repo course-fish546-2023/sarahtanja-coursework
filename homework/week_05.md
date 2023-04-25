@@ -10,11 +10,13 @@ Why use Quarto over RMarkdown? It uses Pandoc to be compatible with
 rendering many different output formats. It has a few more advanced
 features than RMarkdown.
 
-<div class="{callout-tip}">
+<div>
 
-I particularly like the `::: {callout-tip}  :::` code wrap that
-automatically highlights and formats text for different purposes (note,
-warning, important, tip, caution).
+> **Tip**
+>
+> I particularly like the `::: {callout-tip}  :::` code wrap that
+> automatically highlights and formats text for different purposes
+> (note, warning, important, tip, caution).
 
 </div>
 
