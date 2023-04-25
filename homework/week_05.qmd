@@ -2,7 +2,9 @@
 title: "Week 05 Questions"
 author: "Sarah Tanja"
 date: "4/25/2023"
-format: gfm
+format: 
+  gfm:
+    preview-mode: raw
 ---
 
 ```{r setup, include=FALSE}
@@ -13,27 +15,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Quarto is very similar to RMarkdown, and was built by the same people. Why use Quarto over RMarkdown? It uses Pandoc to be compatible with rendering many different output formats. It has a few more advanced features than RMarkdown.
 
-::: callout-info I particularly like the `::: callout-info :::` code wrap that automatically highlights and formats text for different purposes (info, warning, caution, danger). There are also many themes and :::
+::: {callout-tip}  
+
+I particularly like the `::: {callout-tip}  :::` code wrap that automatically highlights and formats text for different purposes (note, warning, important, tip, caution). 
+
+:::
 
 ### How do you make columns using Revealjs in Quarto Presentations?
 
 > To put material in side by side columns, you can use a native div container with class `.columns`, containing two or more div containers with class `.column` and a `width` attribute:
 
-:::: {.columns}
+    :::: {.columns}
 
-::: {.column width="40%"}
+    ::: {.column width="40%"}
 
-Left column
+    Left column
 
-:::
+    :::
 
-::: {.column width="60%"}
+    ::: {.column width="60%"}
 
-Right column
+    Right column
 
-:::
+    :::
 
-::::
+    ::::
 
 ### How would you change the appearance of slides using Revealjs in Quarto Presentations?
 

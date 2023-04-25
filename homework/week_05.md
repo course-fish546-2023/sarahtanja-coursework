@@ -10,13 +10,11 @@ Why use Quarto over RMarkdown? It uses Pandoc to be compatible with
 rendering many different output formats. It has a few more advanced
 features than RMarkdown.
 
-<div>
+<div class="{callout-tip}">
 
-> **Info**
->
-> I particularly like the `::: callout-info :::` code wrap that
-> automatically highlights and formats text for different purposes
-> (info, warning, caution, danger). There are also many themes and
+I particularly like the `::: {callout-tip}  :::` code wrap that
+automatically highlights and formats text for different purposes (note,
+warning, important, tip, caution).
 
 </div>
 
@@ -26,21 +24,21 @@ features than RMarkdown.
 > container with class `.columns`, containing two or more div containers
 > with class `.column` and a `width` attribute:
 
-<div class="columns">
+    :::: {.columns}
 
-<div class="column" width="40%">
+    ::: {.column width="40%"}
 
-Left column
+    Left column
 
-</div>
+    :::
 
-<div class="column" width="60%">
+    ::: {.column width="60%"}
 
-Right column
+    Right column
 
-</div>
+    :::
 
-</div>
+    ::::
 
 ### How would you change the appearance of slides using Revealjs in Quarto Presentations?
 
