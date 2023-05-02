@@ -1,8 +1,7 @@
 ---
 title: "week 06 Questions"
 format:
-  html:
-    theme: default
+  gfm: default
 ---
 
 ## a)  **What are SAM/BAM files? What is the difference between to the two?**
