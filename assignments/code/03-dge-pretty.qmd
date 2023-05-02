@@ -213,7 +213,7 @@ The samples that we are looking at in this assignment are Pacific oyster *Crasso
 
 Sequence reads for these samples are on a public server at <https://gannet.fish.washington.edu/seashell/bu-github/nb-2023/Cgigas/data/nopp/> or located at absolute path `/home/shared/8TB_HDD_01/sr320/github/nb-2023/Cgigas/data`.
 
-This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is not security certificate with `--no-check-certificate`
+This code uses the `--recursive` feature of `wget` to get all 24 files. Additionally as with `curl` above we are ignoring the fact there is no security certificate with `--no-check-certificate`
 
 ```{r, engine='bash'}
 # move to data directory
