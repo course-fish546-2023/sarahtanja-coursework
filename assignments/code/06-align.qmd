@@ -1,5 +1,5 @@
 ---
-title: "06-align"
+title: "Visualize Alignments using `tview` and `Integrated Genome Viewer`"
 author: "Sarah Tanja"
 date: "`r format(Sys.time(), '%d %B, %Y')`"  
 format:
@@ -242,8 +242,26 @@ Details say `F143_mpile.vcf.gz` may be truncated
 
 # Visualize in Integrative Genomics Viewer (IGV)
 
-Download IGV software and install it on your local machine <https://software.broadinstitute.org/software/igv/download> In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
+- Download IGV software and install it on your local machine <https://software.broadinstitute.org/software/igv/download>
 
-Skim the [IGV User Guide](https://software.broadinstitute.org/software/igv/book/export/html/6) ... however it's difficult to navigate and not particularly useful.
+- In my case, I downloaded "[IGV for Windows Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
 
-Download `F143_mpile.vcf.gz` to local machine ?
+- Open IGV Viewer
+
+- Load a Reference Genome: 
+  Go to `Genomes` \> `Load Genome from URL` and enter: https://gannet.fish.washington.edu/panopea/Cg-roslin/cgigas_uk_roslin_v1_genomic-mito.fa
+
+- Load a BAM file: 
+  Go to `File` \> `Load from URL` and enter:
+
+
+- Load a VCF file: Go to `File` \> `Load from URL` and enter:
+
+
+Load other feature tracks from [Roberts Lab Genomic Resources](https://robertslab.github.io/resources/Genomic-Resources/#crassostrea-gigas-oyster_v9)
+
+cgigas_uk_roslin_v1_gene.gff: http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_gene.gff
+
+cgigas_uk_roslin_v1_mRNA.gff: http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_mRNA.gff
+
+![Integrated Gene Viewer with gene.gff and mRNA.gff feature tracks loaded, bam and vcf feature tracks still loading](images/igv-tracks.png)
