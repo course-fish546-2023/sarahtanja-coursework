@@ -186,7 +186,7 @@ Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-c
 ls /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/*.bam
 ```
 
-## mpileup
+## Use `bcftools mpileup` to generate a pileup in a (.txt) Binary Call Format file
 
 ::: callout-warning
 Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt`
@@ -198,13 +198,20 @@ Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-c
 ../output/F143_cgigas_sorted.bam > ../output/F143_mpileup_output.txt
 ```
 
-Take a look at the `F142_mpileup_output.txt`
+`bcftools mpileup` is a command in the bcftools suite, which is a set of tools for variant calling and manipulating genomic variants. The `mpileup` command takes a set of sequence alignment files in BAM format and generates a pileup in the BCF format. 
+
+A pileup is a compact representation of the alignment of reads to a reference genome. For each position in the genome, the pileup shows a list of reads that overlap that position, along with the nucleotide at that position in each read. The pileup also includes quality scores for each read and statistics summarizing the distribution of nucleotides at that position.
+
+The `mpileup` command is often used as a pre-processing step for variant calling, as it provides the information needed to call variants at each position in the genome. The resulting BCF file can be further processed with other `bcftools` commands, such as `call`, to generate a list of genomic variants.
+
+
+Take a look at the pileup `F143_mpileup_output.txt`
 
 ```{r, engine='bash'}
 tail /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt
 ```
 
-Here I take the `Fi43_mpileup_output.txt` from the crabby-duck directory and use `bcftools call` to call variants, output variant sites, and store the results in a compressed Variant Call Format (.vcf) file in this directory output folder.  
+Here I take the `F143_mpileup_output.txt` from the crabby-duck directory and use `bcftools call` to call variants, output variant sites, and store the results in a compressed Variant Call Format (.vcf) file in this directory output folder.  
 
 ```{r, engine='bash'}
 cat /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt \
@@ -212,15 +219,15 @@ cat /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_
 > ../output/F143_mpile.vcf.gz
 ```
 
-Here is what each `bcftools call` option means:
+Here is what each `bcftools call` option used in the chunk above and below means:
 
 -m: This option is used to specify the mode of variant calling. In this case, it sets the mode to "multiallelic-caller", meaning it will try to call all possible alleles at a site.
 
--v: This option tells bcftools call to output only variant sites (sites where at least one sample has a non-reference allele).
+-v: This option tells `bcftools call` to output only variant sites (sites where at least one sample has a non-reference allele).
 
 -Oz: This option specifies the output format and compression. -Oz tells bcftools to output a compressed BCF file, which is a binary file format used for storing genomic variation data.
 
-
+-c: option tells bcftools to use the Bayesian method to call genotypes, which takes into account the probability of observing the variant allele given the sequencing error rate and the sequencing depth.
 
 ```{r, engine='bash'}
 /home/shared/bcftools-1.14/bcftools call \
@@ -228,13 +235,21 @@ Here is what each `bcftools call` option means:
 > ../output/F143_mpile_calls.vcf
 ```
 
+When I run this chunk I get 
+
+> Error: could not parse the input VCF 
+
+Details say `F143_mpile.vcf.gz` may be truncated
+
+
 ## Visualize in Integrative Genomics Viewer (IGV)
 
 Download IGV software and install it on your local machine
   <https://software.broadinstitute.org/software/igv/download>
 In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
 
-Skim the [IGV User Guide](https://software.broadinstitute.org/software/igv/book/export/html/6)
+Skim the [IGV User Guide](https://software.broadinstitute.org/software/igv/book/export/html/6) ... however it's difficult to navigate and not particularly useful.
+
 
 Download `F143_mpile.vcf.gz` to local machine ?
 
