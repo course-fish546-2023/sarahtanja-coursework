@@ -118,20 +118,27 @@ head ../data/GCF_902806645.1_cgigas_uk_roslin_v1_genomic-mito.gtf
 ```
 
 ### Build Index file with `HISAT2`
+
+::: callout-info
+The Index file output is actually **8 files!** which end in `*.index.{1-8}.ht2`
+:::
+
 ```{r, engine='bash'}
 /home/shared/hisat2-2.2.1/hisat2-build \
 -f ../data/cgigas_uk_roslin_v1_genomic-mito.fa \
 ../output/cgigas_uk_roslin_v1_genomic-mito.index
 ```
-::: callout-info
-The Index file output is actually **8 files!** which end in `*.index.{1-8}.ht2`
+
+### Use Index file for Alignment, build the SAM file
+
+::: callout-warning
+This SAM file is 63.9GB and takes a long time to generate! If it takes too long, you can skip cheat and instead point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam`
 :::
 
-### Use Index file for Alignment
 ```{r, engine='bash'}
 /home/shared/hisat2-2.2.1/hisat2 \
 -x ../output/cgigas_uk_roslin_v1_genomic-mito.index \
--p 4 \
+-p 10 \
 -1 ../data/F143n08_R1_001.fastq.gz \
 -2 ../data/F143n08_R2_001.fastq.gz \
 -S ../output/F143_cgigas.sam
@@ -140,4 +147,61 @@ The Index file output is actually **8 files!** which end in `*.index.{1-8}.ht2`
 ### Look at Human-Readable SAM file
 ```{r, engine='bash'}
 tail -1 ../output/F143_cgigas.sam
+```
+
+
+### Convert SAM to BAM
+```{r, engine='bash'}
+# Convert SAM to BAM, using 4 additional threads
+/home/shared/samtools-1.12/samtools view -@ 4 -bS \
+../output/F143_cgigas.sam > ../output/F143_cgigas.bam
+```
+
+### Sort the BAM 
+```{r, engine='bash'}
+# Sort the BAM file, using 4 additional threads
+/home/shared/samtools-1.12/samtools sort -@ 4 \
+../output/F143_cgigas.bam -o ../output/F143_cgigas_sorted.bam
+```
+
+### Index the sorted BAM file
+```{r, engine='bash'}
+# Index the sorted BAM file (multi-threading is not applicable to this operation)
+/home/shared/samtools-1.12/samtools index \
+../output/F143_cgigas_sorted.bam
+```
+```{r, engine='bash'}
+head ~/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam
+```
+
+
+## mpileup
+```{r, engine='bash'}
+/home/shared/bcftools-1.14/bcftools mpileup --threads 4 --no-BAQ \
+--fasta-ref ../data/cgigas_uk_roslin_v1_genomic-mito.fa \
+/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam > ../output/F143_mpileup_output.txt
+```
+
+```{r, engine='bash'}
+tail ../output/F143_mpileup_output.txt
+```
+
+```{r, engine='bash'}
+cat ../output/F143_mpileup_output.txt \
+| /home/shared/bcftools-1.14/bcftools call -mv -Oz \
+> ../output/F143_mpile.vcf.gz
+```
+
+
+```{r, engine='bash'}
+zgrep "^##" -v ../output/F143_mpile.vcf.gz | \
+awk 'BEGIN{OFS="\t"} {split($8, a, ";"); print $1,$2,$4,$5,$6,a[1],$9,$10}' | head
+
+```
+
+
+```{r, engine='bash'}
+/home/shared/bcftools-1.14/bcftools call \
+-v -c ../output/F143_mpile.vcf.gz \
+> ../output/F143_mpile_calls.vcf
 ```
