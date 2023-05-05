@@ -242,26 +242,51 @@ Details say `F143_mpile.vcf.gz` may be truncated
 
 # Visualize in Integrative Genomics Viewer (IGV)
 
-- Download IGV software and install it on your local machine <https://software.broadinstitute.org/software/igv/download>
+1.  Download IGV software and install it on your local machine <https://software.broadinstitute.org/software/igv/download>
 
-- In my case, I downloaded "[IGV for Windows Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
+    -   In my case, I downloaded "[IGV for Windows Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
 
-- Open IGV Viewer
+2.  Open IGV Viewer
 
-- Load a Reference Genome: 
-  Go to `Genomes` \> `Load Genome from URL` and enter: https://gannet.fish.washington.edu/panopea/Cg-roslin/cgigas_uk_roslin_v1_genomic-mito.fa
+3.  Load a Reference Genome: Go to `Genomes` \> `Load Genome from URL` and enter: <https://gannet.fish.washington.edu/panopea/Cg-roslin/cgigas_uk_roslin_v1_genomic-mito.fa>
 
-- Load a BAM file: 
-  Go to `File` \> `Load from URL` and enter:
+:::callout-warning
+Loading the URL's in IGV does take time, this process is slow and requires patience
+:::
 
+4.  Load a sorted BAM file and the BAM Index file: Go to `File` \> `Load from URL` and enter:
 
-- Load a VCF file: Go to `File` \> `Load from URL` and enter:
+    -   BAM file:
 
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/F143_cgigas_sorted.bam>
 
-Load other feature tracks from [Roberts Lab Genomic Resources](https://robertslab.github.io/resources/Genomic-Resources/#crassostrea-gigas-oyster_v9)
+    -   BAM Index file ... But there are 8 to choose from? Which one?
 
-cgigas_uk_roslin_v1_gene.gff: http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_gene.gff
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.1.ht2>
 
-cgigas_uk_roslin_v1_mRNA.gff: http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_mRNA.gff
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.2.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.3.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.4.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.5.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.6.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.7.ht2>
+
+        -   <https://gannet.fish.washington.edu/seashell/bu-546/stanja/sarahtanja/sarahtanja-coursework/assignments/output/cgigas_uk_roslin_v1_genomic-mito.index.8.ht2>
+
+5.  Load a VCF file: Go to `File` \> `Load from URL` and enter:
+
+    -   <https://raw.githubusercontent.com/course-fish546-2023/sarahtanja-coursework/master/assignments/output/F143_mpile_calls.vcf>
+
+6.  Load other feature tracks from [Roberts Lab Genomic Resources](https://robertslab.github.io/resources/Genomic-Resources/#crassostrea-gigas-oyster_v9) using `File` \> `Load from URL` :
+
+    -   cgigas_uk_roslin_v1_gene.gff:
+        -    <http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_gene.gff>
+    -   cgigas_uk_roslin_v1_mRNA.gff:
+        -   <http://owl.fish.washington.edu/halfshell/genomic-databank/cgigas_uk_roslin_v1_mRNA.gff>
 
 ![Integrated Gene Viewer with gene.gff and mRNA.gff feature tracks loaded, bam and vcf feature tracks still loading](images/igv-tracks.png)
