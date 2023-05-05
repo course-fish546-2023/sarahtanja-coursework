@@ -42,11 +42,11 @@ Assignment Goals
 Create and inspect alignment files. Visualize and capture "outside" graphics from programs outside of RStudio. Publish notebook in rpubs and provide link at top of code.
 :::
 
-## Looking at Alignment Files
+# Look at Alignment Files using `tview`
 
-### Download alignment data
+## Download alignment data
 
-#### BAM files
+### BAM files
 
 ```{r, engine='bash'}
 cd ../data
@@ -54,7 +54,7 @@ curl -O https://gannet.fish.washington.edu/seashell/bu-mox/scrubbed/120321-cvBS/
 curl -O https://gannet.fish.washington.edu/seashell/bu-mox/scrubbed/120321-cvBS/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam.bai
 ```
 
-#### Genome C. virginica (Eastern Oyster) FASTA files
+### Genome C. virginica (Eastern Oyster) FASTA files
 
 ```{r, engine='bash'}
 cd ../data
@@ -80,11 +80,11 @@ Then, copy and paste the following directly into Terminal:
 
 You will get an output in Terminal that looks like this:
 
-![](images/tview.png)
+![tview screenshot of aligned reads in each row below the reference genome (top row)](images/tview.png)
 
-And you can navigate it an query it using some special commands.... check out the textbook for details
+And you can navigate and query it using some special commands.... check out [MORE HERE]() for details
 
-## Aligning WGS data and Visualizing in IGV
+# Aligning WGS data and Visualizing in IGV
 
 ### Curl C. gigas (Pacific Oyster) FASTQ files
 
@@ -198,12 +198,11 @@ Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-c
 ../output/F143_cgigas_sorted.bam > ../output/F143_mpileup_output.txt
 ```
 
-`bcftools mpileup` is a command in the bcftools suite, which is a set of tools for variant calling and manipulating genomic variants. The `mpileup` command takes a set of sequence alignment files in BAM format and generates a pileup in the BCF format. 
+`bcftools mpileup` is a command in the bcftools suite, which is a set of tools for variant calling and manipulating genomic variants. The `mpileup` command takes a set of sequence alignment files in BAM format and generates a pileup in the BCF format.
 
 A pileup is a compact representation of the alignment of reads to a reference genome. For each position in the genome, the pileup shows a list of reads that overlap that position, along with the nucleotide at that position in each read. The pileup also includes quality scores for each read and statistics summarizing the distribution of nucleotides at that position.
 
 The `mpileup` command is often used as a pre-processing step for variant calling, as it provides the information needed to call variants at each position in the genome. The resulting BCF file can be further processed with other `bcftools` commands, such as `call`, to generate a list of genomic variants.
-
 
 Take a look at the pileup `F143_mpileup_output.txt`
 
@@ -211,7 +210,7 @@ Take a look at the pileup `F143_mpileup_output.txt`
 tail /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt
 ```
 
-Here I take the `F143_mpileup_output.txt` from the crabby-duck directory and use `bcftools call` to call variants, output variant sites, and store the results in a compressed Variant Call Format (.vcf) file in this directory output folder.  
+Here I take the `F143_mpileup_output.txt` from the crabby-duck directory and use `bcftools call` to call variants, output variant sites, and store the results in a compressed Variant Call Format (.vcf) file in this directory output folder.
 
 ```{r, engine='bash'}
 cat /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt \
@@ -235,23 +234,16 @@ Here is what each `bcftools call` option used in the chunk above and below means
 > ../output/F143_mpile_calls.vcf
 ```
 
-When I run this chunk I get 
+When I run this chunk I get
 
-> Error: could not parse the input VCF 
+> Error: could not parse the input VCF
 
 Details say `F143_mpile.vcf.gz` may be truncated
 
+# Visualize in Integrative Genomics Viewer (IGV)
 
-## Visualize in Integrative Genomics Viewer (IGV)
-
-Download IGV software and install it on your local machine
-  <https://software.broadinstitute.org/software/igv/download>
-In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
+Download IGV software and install it on your local machine <https://software.broadinstitute.org/software/igv/download> In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
 
 Skim the [IGV User Guide](https://software.broadinstitute.org/software/igv/book/export/html/6) ... however it's difficult to navigate and not particularly useful.
 
-
 Download `F143_mpile.vcf.gz` to local machine ?
-
-
-
