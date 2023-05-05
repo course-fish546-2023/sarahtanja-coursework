@@ -220,11 +220,7 @@ Here is what each `bcftools call` option means:
 
 -Oz: This option specifies the output format and compression. -Oz tells bcftools to output a compressed BCF file, which is a binary file format used for storing genomic variation data.
 
-```{r, engine='bash'}
-zgrep "^##" -v ../output/F143_mpile.vcf.gz | \
-awk 'BEGIN{OFS="\t"} {split($8, a, ";"); print $1,$2,$4,$5,$6,a[1],$9,$10}' | head
 
-```
 
 ```{r, engine='bash'}
 /home/shared/bcftools-1.14/bcftools call \
@@ -237,6 +233,10 @@ awk 'BEGIN{OFS="\t"} {split($8, a, ";"); print $1,$2,$4,$5,$6,a[1],$9,$10}' | he
 Download IGV software and install it on your local machine
   <https://software.broadinstitute.org/software/igv/download>
 In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
+
+Skim the [IGV User Guide](https://software.broadinstitute.org/software/igv/book/export/html/6)
+
+Download `F143_mpile.vcf.gz` to local machine ?
 
 
 
