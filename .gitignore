@@ -11,3 +11,10 @@ assignments/data/cgigas_roslin_rna.index
 assignments/data/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam
 assignments/data/F143n08_R1_001.fastq.gz
 assignments/output/F143_cgigas.sam
+.git/objects/pack/pack-fde09afcc501a16c4eaebd90974033bd0bef1284.pack
+assignments/data/F143n08_R2_001.fastq.gz
+assignments/data/cgigas_roslin_rna.index
+assignments/data/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam
+assignments/data/F143n08_R1_001.fastq.gz
+assignments/output/F143_mpileup_output.txt
+assignments/output/F143_cgigas.sam

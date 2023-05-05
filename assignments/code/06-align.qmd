@@ -36,12 +36,10 @@ getwd()
 
 ```
 
+Assignment Goals
 
-
-Assignment Goals 
-
-::: callout-info 
-Create and inspect alignment files. Visualize and capture "outside" graphics from programs outside of RStudio. Publish notebook in rpubs and provide link at top of code. 
+::: callout-info
+Create and inspect alignment files. Visualize and capture "outside" graphics from programs outside of RStudio. Publish notebook in rpubs and provide link at top of code.
 :::
 
 ## Looking at Alignment Files
@@ -89,13 +87,14 @@ And you can navigate it an query it using some special commands.... check out th
 ## Aligning WGS data and Visualizing in IGV
 
 ### Curl C. gigas (Pacific Oyster) FASTQ files
+
 ```{r, engine='bash'}
 cd ../data
 curl -O https://owl.fish.washington.edu/nightingales/C_gigas/F143n08_R2_001.fastq.gz
 curl -O https://owl.fish.washington.edu/nightingales/C_gigas/F143n08_R1_001.fastq.gz
 ```
 
-### Curl C. gigas 
+### Curl C. gigas (Pacific Oyster) Genome files
 
 ::: callout-info
 A .fa file ending typically indicates that the file contains DNA or protein sequence data in FASTA format. A .fa file may contain a single sequence or multiple sequences, and it can be generated from a variety of sources, such as genome sequencing data, transcriptome sequencing data, or protein sequence data.
@@ -113,6 +112,7 @@ curl -O https://gannet.fish.washington.edu/panopea/Cg-roslin/GCF_902806645.1_cgi
 ```
 
 Look at GTF
+
 ```{r, engine='bash'}
 head ../data/GCF_902806645.1_cgigas_uk_roslin_v1_genomic-mito.gtf
 ```
@@ -132,7 +132,7 @@ The Index file output is actually **8 files!** which end in `*.index.{1-8}.ht2`
 ### Use Index file for Alignment, build the SAM file
 
 ::: callout-warning
-This SAM file is 63.9GB and takes a long time to generate! If it takes too long, you can skip cheat and instead point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam`
+This SAM file is 63.9GB and takes a long time to generate! If it takes too long, you can skip cheat and instead point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_cgigas.sam`
 :::
 
 ```{r, engine='bash'}
@@ -145,19 +145,29 @@ This SAM file is 63.9GB and takes a long time to generate! If it takes too long,
 ```
 
 ### Look at Human-Readable SAM file
+
 ```{r, engine='bash'}
-tail -1 ../output/F143_cgigas.sam
+head /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_cgigas.sam
 ```
 
-
 ### Convert SAM to BAM
+
+::: callout-warning
+Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_cgigas.bam`
+:::
+
 ```{r, engine='bash'}
 # Convert SAM to BAM, using 4 additional threads
 /home/shared/samtools-1.12/samtools view -@ 4 -bS \
 ../output/F143_cgigas.sam > ../output/F143_cgigas.bam
 ```
 
-### Sort the BAM 
+### Sort the BAM
+
+::: callout-warning
+Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_cgigas_sorted.bam`
+:::
+
 ```{r, engine='bash'}
 # Sort the BAM file, using 4 additional threads
 /home/shared/samtools-1.12/samtools sort -@ 4 \
@@ -165,33 +175,50 @@ tail -1 ../output/F143_cgigas.sam
 ```
 
 ### Index the sorted BAM file
+
 ```{r, engine='bash'}
 # Index the sorted BAM file (multi-threading is not applicable to this operation)
 /home/shared/samtools-1.12/samtools index \
 ../output/F143_cgigas_sorted.bam
 ```
+
 ```{r, engine='bash'}
-head ~/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam
+ls /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/*.bam
 ```
 
-
 ## mpileup
+
+::: callout-warning
+Again, you can skip, and point to `/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt`
+:::
+
 ```{r, engine='bash'}
 /home/shared/bcftools-1.14/bcftools mpileup --threads 4 --no-BAQ \
 --fasta-ref ../data/cgigas_uk_roslin_v1_genomic-mito.fa \
-/home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/F143_cgigas_sorted.bam > ../output/F143_mpileup_output.txt
+../output/F143_cgigas_sorted.bam > ../output/F143_mpileup_output.txt
 ```
 
-```{r, engine='bash'}
-tail ../output/F143_mpileup_output.txt
-```
+Take a look at the `F142_mpileup_output.txt`
 
 ```{r, engine='bash'}
-cat ../output/F143_mpileup_output.txt \
+tail /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt
+```
+
+Here I take the `Fi43_mpileup_output.txt` from the crabby-duck directory and use `bcftools call` to call variants, output variant sites, and store the results in a compressed Variant Call Format (.vcf) file in this directory output folder.  
+
+```{r, engine='bash'}
+cat /home/shared/8TB_HDD_01/sr320/github/steven-crabby-duck/output/F143_mpileup_output.txt \
 | /home/shared/bcftools-1.14/bcftools call -mv -Oz \
 > ../output/F143_mpile.vcf.gz
 ```
 
+Here is what each `bcftools call` option means:
+
+-m: This option is used to specify the mode of variant calling. In this case, it sets the mode to "multiallelic-caller", meaning it will try to call all possible alleles at a site.
+
+-v: This option tells bcftools call to output only variant sites (sites where at least one sample has a non-reference allele).
+
+-Oz: This option specifies the output format and compression. -Oz tells bcftools to output a compressed BCF file, which is a binary file format used for storing genomic variation data.
 
 ```{r, engine='bash'}
 zgrep "^##" -v ../output/F143_mpile.vcf.gz | \
@@ -199,9 +226,17 @@ awk 'BEGIN{OFS="\t"} {split($8, a, ";"); print $1,$2,$4,$5,$6,a[1],$9,$10}' | he
 
 ```
 
-
 ```{r, engine='bash'}
 /home/shared/bcftools-1.14/bcftools call \
 -v -c ../output/F143_mpile.vcf.gz \
 > ../output/F143_mpile_calls.vcf
 ```
+
+## Visualize in Integrative Genomics Viewer (IGV)
+
+Download IGV software and install it on your local machine
+  <https://software.broadinstitute.org/software/igv/download>
+In my case, I downloaded "[IGV for Windows, Java Included](https://data.broadinstitute.org/igv/projects/downloads/2.16/IGV_Win_2.16.1-WithJava-installer.exe)"
+
+
+
