@@ -48,7 +48,7 @@ Install Packages
 
 ```{r install-packages, eval=TRUE, cache=TRUE}
 
-if ("knitr" %in% rownames(installed.packages()) == 'FALSE') BiocManager::install("knitr") 
+if ("knitr" %in% rownames(installed.packages()) == 'FALSE') install.packages("knitr") 
 if ("tidyverse" %in% rownames(installed.packages()) == 'FALSE') install.packages('tidyverse')
 if ("kableExtra" %in% rownames(installed.packages()) == 'FALSE') install.packages('kableExtra')
 if ("pheatmap" %in% rownames(installed.packages()) == 'FALSE') install.packages('pheatmap') 
