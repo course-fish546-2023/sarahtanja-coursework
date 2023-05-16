@@ -1,8 +1,7 @@
 ---
 title: "Week 07 Questions"
-
-format:
-  md_document
+author: "Sarah Tanja"
+format: md_document
 ---
 
 ## a) **What is your current grade in the class? How many issues are open in our research repository?**
@@ -17,7 +16,7 @@ There are still many aspects of the bioinformatics world that are still unclear 
 
 ## c) **What is epigenetics and how could it relate to your own research project?**
 
-Epigenetics is the study of *'mechanisms that can alter expression in a heritable manner without altering the underlying nucleotides themselves* ([Roberts and Gavery, 2018](https://bioone.org/journals/journal-of-shellfish-research/volume-37/issue-4/035.037.0406/Opportunities-in-Functional-Genomics--A-Primer-on-Lab-and/10.2983/035.037.0406.short)).' It seems the most common epigenetic analysis focuses on DNA methylation and histone modification patterns, something that apparently is possible to catch using Next-generation sequencing (NGS). I wonder what settings you have to use in NGS to catch all that info, or if every sample run on NGS platforms catch those additional data. My own research project is looking at an acute exposure of scleractinian *M. capitata* corals to heat and pollution stressors, and is going to be relying on Tag-Seq NGS.
+Epigenetics is the study of *'mechanisms that can alter expression in a heritable manner without altering the underlying nucleotides themselves\* ([Roberts and Gavery, 2018](https://bioone.org/journals/journal-of-shellfish-research/volume-37/issue-4/035.037.0406/Opportunities-in-Functional-Genomics--A-Primer-on-Lab-and/10.2983/035.037.0406.short)).' It seems the most common epigenetic analysis focuses on DNA methylation and histone modification patterns, something that apparently is possible to catch using Next-generation sequencing (NGS). I wonder what settings you have to use in NGS to catch all that info, or if every sample run on NGS platforms catch those additional data. My own research project is looking at an acute exposure of scleractinian* M. capitata\* corals to heat and pollution stressors, and is going to be relying on Tag-Seq NGS.
 
 ChatGPT says:
 

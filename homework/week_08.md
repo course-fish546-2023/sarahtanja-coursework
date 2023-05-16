@@ -1,0 +1,50 @@
+---
+title: "Week 08 Questions"
+author: "Sarah Tanja"
+format: md_document
+---
+
+## 
+
+## **a. What is a genomic range and what 3 types of information do you need for a range?**
+
+Genomic ranges are *'integer intervals that represent a subsequence of consecutive positions on a sequence like a chromosome'* (Bioinformatics Data Skills, Chapter 9: Working with Range Data, pg. 264). They represent regions of a genome using a numbered base-pair start and stop position. In order to correctly describe a range, you need to provide the following:
+
+-   Genome version
+
+    -   genomic locations and ranges are relative to reference genomes, so you have to specify which genome version you are using
+
+-   Chromosome name (or sequence name)
+
+    -   each genome is made up of a set of chromosome sequences, so you have to specify which one a range is on
+
+-   Strand (forward or reverse)
+
+    -   chromosomal DNA is double-stranded, and features can be strand-specific and reside on either the forward (+) or reverse (-) strands
+
+-   Range \[start, end) or \[start, end\]
+
+    -   base-pair integer range in either 0-based (indexed) or 1-based (indexed)
+
+## **b. What does 0-based and 1-based refer to? What are the advantages and disadvantages of each?**
+
+0-based or 1-based coordinate systems refer to how you describe the range. 0-based starts counting the first base-pair as 0, while 1-based starts counting the first base-pair at 1. In the 0-based coordinate system, the start base pair is included in the range, but the end base pair is excluded.
+
++------------------------------------------------------------+-----------------------------------------------------------------------------+
+| 0-based                                                    | 1-based                                                                     |
++------------------------------------------------------------+-----------------------------------------------------------------------------+
+| -   starts at 0 \[start, end)                              | -   starts at 1 \[start, end\]                                              |
+| -   \[*included* , *excluded* )                            | -   \[*included, included*\]                                                |
+| -   half closed, half open intervals                       | -   closed intervals                                                        |
+| -   Python                                                 | -   R                                                                       |
+| -   zero-width features \[12, 12) *features between bases* | -   zero-width features \[12,11\] *features between bases*                  |
+| -   $range \, width = end - start$                         | -   $range \, width = end - start +1$                                       |
+| -   `BEDTools`                                             | -   `GenomicRanges`                                                         |
+| -   `BAM`                                                  | -   `GTF`                                                                   |
+|                                                            | -   `GFF`                                                                   |
+|                                                            | -   `SAM`                                                                   |
++------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+## **c. What is the value of BEDtools over the bioconductor package GenomicRange?**
+
+## **d. Describe one subcommand of the BEDtools suite as well as a practical use case.**
