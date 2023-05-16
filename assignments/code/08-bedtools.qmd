@@ -1,0 +1,37 @@
+---
+title: "07-cg-motif"
+author: "Sarah Tanja"
+date: "`r format(Sys.time(), '%d %B, %Y')`"  
+format:
+  gfm: default
+  html:
+    df-print: paged
+    toc: true
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
+    code-fold: show
+    code-tools: true
+    code-copy: true
+    highlight-style: arrow
+    code-overflow: wrap
+    theme:
+      light: sandstone
+      dark: vapor
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(
+  highlight = TRUE,    # Highlight code
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = TRUE,     # Hide warnings
+  message = TRUE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+  )
+
+```
+
