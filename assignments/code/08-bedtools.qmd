@@ -64,8 +64,8 @@ This is a BIG file, don't commit it!
 
 ```{r, engine='bash'}
 
-/home/shared/bedtools2/bin/bedtools bamtobed \ 
--i ../data/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam \ 
+/home/shared/bedtools2/bin/bedtools bamtobed \
+-i ../data/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam \
 > ../output/08-19F.bed
 
 ```
