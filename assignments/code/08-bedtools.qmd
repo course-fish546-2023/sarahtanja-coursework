@@ -35,3 +35,64 @@ knitr::opts_chunk$set(
 
 ```
 
+Bioinformatics-FISH 546 BEDTools genomic ranges assignment
+
+## Coverage
+
+![](http://gannet.fish.washington.edu/seashell/snaps/Monosnap_coverage__bedtools_2.31.0_documentation_2023-05-14_07-59-15.png){fig-align="center"}
+
+For this sub command you will be using the same data as in Week 6, so you should already have it in you data directory. If not or if you deleted it here is where you can get it:
+
+```{r, engine='bash'}
+cd ../data 
+curl -O https://gannet.fish.washington.edu/seashell/bu-mox/scrubbed/120321-cvBS/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam 
+curl -O https://gannet.fish.washington.edu/seashell/bu-mox/scrubbed/120321-cvBS/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam.bai
+```
+
+You will also need a bed file with gene information:
+
+```{r, engine='bash'}
+cd ../data 
+curl -O https://eagle.fish.washington.edu/Cvirg_tracks/C_virginica-3.0_Gnomon_genes.bed
+```
+
+### Convert BAM to BED
+
+::: callout-warning
+This is a BIG file, don't commit it!
+:::
+
+```{r, engine='bash'}
+
+/home/shared/bedtools2/bin/bedtools bamtobed \ 
+-i ../data/19F_R1_val_1_bismark_bt2_pe.deduplicated.sorted.bam \ 
+> ../output/08-19F.bed
+
+```
+
+### Get coverage of sequence reads on gene regions
+
+Default behavior After each interval in A, bedtools coverage will report:
+
+-   The number of features in B that overlapped (by at least one base pair) the A interval.
+
+-   The number of bases in A that had non-zero coverage from features in B.
+
+-   The length of the entry in A.
+
+-   The fraction of bases in A that had non-zero coverage from features in B.
+
+```{r, engine='bash'}
+/home/shared/bedtools2/bin/bedtools coverage \
+-a ../data/C_virginica-3.0_Gnomon_genes.bed \
+-b ../output/08-19F.bed \
+> ../output/08-gene-19F-coverage.out
+```
+
+## Intersect
+
+![](http://gannet.fish.washington.edu/seashell/snaps/Monosnap_intersect__bedtools_2.31.0_documentation_2023-05-14_07-04-41.png){fig-align="center"}
+
+## Closest
+
+![](http://gannet.fish.washington.edu/seashell/snaps/Monosnap_closest__bedtools_2.31.0_documentation_2023-05-14_07-18-54.png){fig-align="center"}
