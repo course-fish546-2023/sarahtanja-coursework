@@ -3,8 +3,6 @@ Week 08 Questions
 Sarah Tanja
 5/16/23
 
-## 
-
 ## **a. What is a genomic range and what 3 types of information do you need for a range?**
 
 Genomic ranges are *‘integer intervals that represent a subsequence of
@@ -30,7 +28,7 @@ the following:
     strand-specific and reside on either the forward (+) or reverse (-)
     strands
 
-- Range $$start, end) or \[start, end$$
+- Range \[start, end) or \[start, end\]
 
   - base-pair integer range in either 0-based (indexed) or 1-based
     (indexed)
@@ -91,8 +89,26 @@ range file formats like BED, BAM, GTF, and GFF.
 
 ## **d. Describe one subcommand of the `BEDtools` suite as well as a practical use case.**
 
-Cpmputing overlaps using `bedtools intersect` is one of the most
+Computing overlaps using `bedtools intersect` is one of the most
 commonly used range-based operations in bioinformatics. This command
-computes the overlap between two sets of ranges. `BEDTools` labels
-ranges ‘a’ and ‘b’, so the `-a` and `-b` options are used to specify the
-input range files, which can be in BED, BAM, GTF, or GFF format.
+computes the overlap between two sets of ranges.
+
+``` bash
+
+bedtools intersect -a genes.BED -b regulatory_regions.BED
+```
+
+- `-a` and `-b` options are used to specify the input range files, which
+  can be in BED, BAM, GTF, or GFF format.
+- `-wa` returns the ranges in `a` that overlap `b`
+- `-wb` returns the ranges in `b` that overlap `a`
+- `-u` for unique removes duplicate overlaps to keep the full range of
+  `a` from being reported twice
+- `-wo` returns the number of overlapping bases
+- `-v` returns all non-overlapping ranges
+
+The command
+`bedtools intersect -a genes.BED -b regulatory_regions.BED -wa -wb -u -wo`
+would return all the entire query range between `a` and `b` that has
+overlapping ranges, with no duplicates, and the number of overlapping
+bases.

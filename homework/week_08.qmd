@@ -6,7 +6,21 @@ format:
   gfm: default
 ---
 
-## 
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(
+  highlight = TRUE,    # Highlight code
+  echo = TRUE,         # Display code chunks
+  eval = FALSE,        # Evaluate code chunks
+  warning = TRUE,     # Hide warnings
+  message = TRUE,     # Hide messages
+  fig.width = 6,       # Set plot width in inches
+  fig.height = 4,      # Set plot height in inches
+  fig.align = "center" # Align plots to the center
+  )
+
+```
+
 
 ## **a. What is a genomic range and what 3 types of information do you need for a range?**
 
