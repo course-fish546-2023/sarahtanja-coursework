@@ -1,0 +1,43 @@
+---
+title: "week 06 Questions"
+format:
+  gfm: default
+---
+
+## a)  **What are SAM/BAM files? What is the difference between to the two?**
+
+SAM/BAM files contain sequencing reads that are mapped to a reference. 
+SAM files are human-readable, BAM files are the binary and compressed equivalent to SAM files. 
+
+SAM (Sequence Alignment/Map)  
+- human readable
+- plain text
+- header with metadata
+- large file size
+
+BAM (Binary Alignment/Map) 
+- binary
+- compressed
+- small file size
+- suitable for large-scale analysis
+
+## b)  **`samtools`is a popular program for working with alignment data. What are three common tasks that this software is used for?** 
+
+Samtools can 1.) convert between SAM and BAM file formats using the command `samtools view`, 2.) sort alignments by their chromosomal coordinates using the command `samtools sort`, and 3.) merge multiple BAM files into a single file, usdeful when combining data from different sequencing runs, using the command `samtools merge`.
+
+## c)  **Why might you want to visualize alignment data and what are two program that can be used for this?**
+
+Visualizing alignment data is important for quality control (read quality, misaligned reads) and variant discovery (hihglight areas with variants, insertions/deletions), among other uses. Two programs that can be used for this are:
+
+**Samtools**
+The samtools suite allows a quick visualization of alignments using the `samtools tview` command directly in the terminal window. This is good for quick 'sneak peaks' but is a terminal output, so can't be saved, shared, or made pretty. 
+
+**Integrated Genomics Viewer (IGV)** 
+Integrated Genomics Viewer (IGV) is a GUI Java application that allows you to view genomic data at multiple levels, from the whole genome to individual nucleotides. 
+
+## d)  **Describe what VCF file is?**
+
+A Variant Call Format (VCF) file is a text file that stores information about genetic variations, such as single nucleotide polymorphisms (SNPs), insertions, deletions, and structural variants. Each variant in a VCF file is represented by a set of fields, including its genomic position, reference allele, alternate allele(s), quality scores, and annotations. VCF files may also contain information about the samples from which the variants were called, such as genotype calls and read depth.
+
+
+

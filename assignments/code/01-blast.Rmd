@@ -2,10 +2,16 @@
 title: "blast"
 author: "Sarah Tanja"
 date: "3/31/2023"
-output: html_document
+output: md_document
 ---
 
-This assignment is to take set of unknown protein sequences, and annotate them with GO terms. What is a Gene Ontology (GO) term? 👀 see this [introduction to GO annotation](http://geneontology.org/docs/go-annotations/).
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(highlight = TRUE, eval = FALSE)
+```
+
+This assignment is to take set of unknown protein sequences, and annotate them with GO terms using BLAST  (Basic Local Alignment Search Tool).
+
+What is a Gene Ontology (GO) term? 👀 see this [introduction to GO annotation](http://geneontology.org/docs/go-annotations/).
 
 tl;dr: GO term annotation helps to answer questions like, 'What proteins are in the sample, and what do they do?"
 
@@ -23,7 +29,7 @@ Open the remote RStudio server through [JupyterHub Instance](https://jupyter.rtt
 
 Navigate to the [NCBI blast downloads](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/){style="font-size: 11.4pt;"} page, and copy [the link]{.underline} to the software ***for your operating system***. This is an important first step! Here I choose \`[ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz)\` because I am working in a Linux OS environment through the cloud instance of UW's JupyterHub, which operates a Linux OS.
 
-![software download for NCBI blast](ncbiblastdownload.png)
+![software download for NCBI blast](images/ncbiblastdownload.png)
 
 We are going to first try to downloaded the [ncbi-blast-2.13.0+-x64-linux.tar.gz](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.13.0+-x64-linux.tar.gz) , and we'll do this not by 'clicking' on the file and downloading it locally to your computer, but by downloading it using the `curl -O` bash command and placing it in a new folder we'll create named 'applications' outside of the repository.
 

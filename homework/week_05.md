@@ -1,0 +1,84 @@
+Week 05 Questions
+================
+Sarah Tanja
+4/25/23
+
+### What is Quarto?
+
+Quarto is very similar to RMarkdown, and was built by the same people.
+Why use Quarto over RMarkdown? It uses Pandoc to be compatible with
+rendering many different output formats. It has a few more advanced
+features than RMarkdown.
+
+<div>
+
+> **Tip**
+>
+> I particularly like the `::: {callout-tip}  :::` wrap that
+> automatically highlights and formats text for different purposes
+> (note, warning, important, tip, caution)
+
+</div>
+
+### How do you make columns using Revealjs in Quarto Presentations?
+
+Quarto docs show example code for making columns with the presentation
+`format: revealjs`
+[HERE](https://quarto.org/docs/presentations/revealjs/#multiple-columns)
+
+> To put material in side by side columns, you can use a native div
+> container with class `.columns`, containing two or more div containers
+> with class `.column` and a `width` attribute:
+
+    :::: {.columns}
+
+    ::: {.column width="40%"}
+
+    Left column
+
+    :::
+
+    ::: {.column width="60%"}
+
+    Right column
+
+    :::
+
+    ::::
+
+### How would you change the appearance of slides using Revealjs in Quarto Presentations?
+
+There seem to be many ways to customize slides using `format: revealjs`.
+You can customize slides by making the background an image or a video.
+
+Themes are probably the easiest uniform way to change slide appearance.
+There are 10 built-in themes, or you can create your own. To add a
+theme, call it out in the YAML front matter.
+
+    ---
+    title: "Presentation"
+
+    format:
+      revealjs:
+        theme: dark
+    ---
+
+Here is the full list of available themes:
+
+- beige
+- blood
+- dark
+- default
+- league
+- moon
+- night
+- serif
+- simple
+- sky
+- solarized
+
+### What has been the biggest constraint working on your own research project in the past week?
+
+Time. I have been in the lab working on DNA/RNA extractions and have
+spent less time working on developing the DGE script for *Montipora
+capitata* rice coral.
