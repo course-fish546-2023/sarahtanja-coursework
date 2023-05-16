@@ -1,7 +1,7 @@
 ---
 title: "Week 08 Questions"
 author: "Sarah Tanja"
-format: md_document
+date: 2023-05-16
 ---
 
 ## 
@@ -22,7 +22,7 @@ Genomic ranges are *'integer intervals that represent a subsequence of consecuti
 
     -   chromosomal DNA is double-stranded, and features can be strand-specific and reside on either the forward (+) or reverse (-) strands
 
--   Range \[start, end) or \[start, end\]
+-   Range $$start, end) or \[start, end$$
 
     -   base-pair integer range in either 0-based (indexed) or 1-based (indexed)
 
@@ -30,21 +30,25 @@ Genomic ranges are *'integer intervals that represent a subsequence of consecuti
 
 0-based or 1-based coordinate systems refer to how you describe the range. 0-based starts counting the first base-pair as 0, while 1-based starts counting the first base-pair at 1. In the 0-based coordinate system, the start base pair is included in the range, but the end base pair is excluded.
 
-+------------------------------------------------------------+-----------------------------------------------------------------------------+
-| 0-based                                                    | 1-based                                                                     |
-+------------------------------------------------------------+-----------------------------------------------------------------------------+
-| -   starts at 0 \[start, end)                              | -   starts at 1 \[start, end\]                                              |
-| -   \[*included* , *excluded* )                            | -   \[*included, included*\]                                                |
-| -   half closed, half open intervals                       | -   closed intervals                                                        |
-| -   Python                                                 | -   R                                                                       |
-| -   zero-width features \[12, 12) *features between bases* | -   zero-width features \[12,11\] *features between bases*                  |
-| -   $range \, width = end - start$                         | -   $range \, width = end - start +1$                                       |
-| -   `BEDTools`                                             | -   `GenomicRanges`                                                         |
-| -   `BAM`                                                  | -   `GTF`                                                                   |
-|                                                            | -   `GFF`                                                                   |
-|                                                            | -   `SAM`                                                                   |
-+------------------------------------------------------------+-----------------------------------------------------------------------------+
++-----------------------------------------------------------+--------------------------------------------------+
+| 0-based                                                   | 1-based                                          |
++-----------------------------------------------------------+--------------------------------------------------+
+| -   starts at 0 [start, end)                              | -   starts at 1 [start, end]                     |
+| -   [*included* , *excluded* )                            | -   [*included*, *included*]                     |
+| -   half closed, half open intervals                      | -   closed intervals                             |
+| -   Python                                                | -   R                                            |
+| -   zero-width features [12, 12) *features between bases* | -   zero-width features *features between bases* |
+| -   $range \, width = end - start$                        | -   $range \, width = end - start +1$            |
+| -   `BEDTools`                                            | -   `GenomicRanges`                              |
+| -   `BAM`                                                 | -   `GTF`                                        |
+|                                                           | -   `GFF`                                        |
+|                                                           | -   `SAM`                                        |
++-----------------------------------------------------------+--------------------------------------------------+
 
-## **c. What is the value of BEDtools over the bioconductor package GenomicRange?**
+## **c. What is the value of `BEDtools` over the bioconductor package `GenomicRange`?**
 
-## **d. Describe one subcommand of the BEDtools suite as well as a practical use case.**
+`GenomicRanges` has cool visuals and interactive features, but requires that you load in all the data and uses lots of memory. In contrast, the `BEDTools` suite uses command-line tools that work directly in the data range file formats like BED, BAM, GTF, and GFF.
+
+## **d. Describe one subcommand of the `BEDtools` suite as well as a practical use case.**
+
+Cpmputing overlaps using `bedtools intersect` is one of the most commonly used range-based operations in bioinformatics. This command computes the overlap between two sets of ranges. `BEDTools` labels ranges 'a' and 'b', so the `-a` and `-b` options are used to specify the input range files, which can be in BED, BAM, GTF, or GFF format.
