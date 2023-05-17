@@ -1,0 +1,102 @@
+---
+title: "04-hyak-mox"
+format: html
+---
+
+# **Setup**
+
+1.  Go to <https://uwnetid.washington.edu/manage/>
+
+2.  Click the \"Computing Services\" link on the left
+
+3.  Click the \"Hyak Server\" and \"Lolo Server\" check boxes in the \"Inactive Services\" section.
+
+4.  Click the \"Subscribe \>\" button at the bottom of the page.
+
+5.  Read the notice and click the \"Finish\" button.
+
+For two factor authentication, you can either sign up for Duo [here](https://identity.uw.edu/2fa/) and use your smart phone or request a security token [here](http://www.washington.edu/itconnect/service/authentication/). Duo is much easier.
+
+# **Logging in**
+
+1.  Open your favorite terminal
+
+2.  Type `ssh stanja@mox.hyak.uw.edu` 
+
+3.  Input your UWNetID *password*
+
+4.  If you\'re signed up for 2-factor authentication via Duo, open your smart phone and approve the connection.
+
+5.  You\'re logged in to a Login node for Hyak!
+
+# **Running a job**
+
+Once logged into mox, navigate to `/gscratch/scrubbed/stanja`.
+
+```{r, engine='bash'}
+cd /gscratch/scrubbed/stanja
+
+```
+
+If the dir is not there you shoud create it. For every job you submit I recommend working within a directory. Usually I name these in a data format, but we can just `mkdir assign_04`.
+
+### Generate shell script
+
+To run a job you need to generate a shell script. 
+In Rstudio, go to `File>New File> Shell Script`
+Save the shell script in your code directory and name it `04-job.sh`
+Add contents such as:
+
+```{r}
+#!/bin/bash
+## blast
+#SBATCH --job-name=blast
+## Allocation Definition
+#SBATCH --account=srlab
+#SBATCH --partition=srlab
+## Resources
+## Nodes
+#SBATCH --nodes=1
+## Walltime (days-hours:minutes:seconds format)
+#SBATCH --time=01-08:00:00
+## Memory per node
+#SBATCH --mem=100G
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=stanja@uw.edu
+## Specify the working directory for this job
+#SBATCH --chdir=/gscratch/scrubbed/stanja/blast
+
+#run a python script you wrote!
+module load intel-python3_2017
+
+python 04-hello.py
+
+# run blastx just to get manual
+/gscratch/srlab/programs/ncbi-blast-2.10.1+/bin/blastx \
+
+#a few bash commands
+pwd 
+
+whoami
+
+echo "yah! I did it!!!!!!!!!!"
+
+#this writes out  tofile
+echo "yah! I did it!!!!!!!!!!" > text.file
+```
+
+### create Python Script
+
+In Rstudio, navigate to `File > New File > Python Script`
+Create a Python Script and name it 04-hello.py with the contents:
+
+```
+print("Hello, World!")
+
+```
+Save this script in the same directory as the `04-job.sh`
+
+Now we want to move these two files to mox into the assign_04 directory. To to this you will need to type something to the effect of the following in the terminal
+
+rsync -avz assignments/code/04-* sr320@mox.hyak.uw.edu:/gscratch/scrubbed/sr320/assign_04
+

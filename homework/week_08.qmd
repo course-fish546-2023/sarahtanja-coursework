@@ -6,21 +6,7 @@ format:
   gfm: default
 ---
 
-```{r setup, include=FALSE}
-
-knitr::opts_chunk$set(
-  highlight = TRUE,    # Highlight code
-  echo = TRUE,         # Display code chunks
-  eval = FALSE,        # Evaluate code chunks
-  warning = TRUE,     # Hide warnings
-  message = TRUE,     # Hide messages
-  fig.width = 6,       # Set plot width in inches
-  fig.height = 4,      # Set plot height in inches
-  fig.align = "center" # Align plots to the center
-  )
-
-```
-
+## 
 
 ## **a. What is a genomic range and what 3 types of information do you need for a range?**
 
@@ -77,7 +63,7 @@ bedtools intersect -a genes.BED -b regulatory_regions.BED
 
 -   `-a` and `-b` options are used to specify the input range files, which can be in BED, BAM, GTF, or GFF format.
 -   `-wa` returns the ranges in `a` that overlap `b`
--    `-wb` returns the ranges in `b` that overlap `a`
+-   `-wb` returns the ranges in `b` that overlap `a`
 -   `-u` for unique removes duplicate overlaps to keep the full range of `a` from being reported twice
 -   `-wo` returns the number of overlapping bases
 -   `-v` returns all non-overlapping ranges
